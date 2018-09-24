@@ -126,15 +126,7 @@ if(isset($POST['data']) && $POST['data']=='1')
           $nameclass = "errorRed";
         }
 
-        if($dob!='') 
-        { 
-            if(!preg_match("/^[0-9\-]+$/",$dob)) 
-            {
-              $error="Please enter valid dob"; 
-              $flag =false;
-              $dobclass = "errorRed";
-            }
-        }
+       
 
 
         if($pan!='')
@@ -526,7 +518,7 @@ if(isset($POST['data']) && $POST['data']=='1')
                                   }
                                   if($employer!='')
                                   {
-                                    if(!preg_match("/^[a-zA-Z 0-9]+$/",$employer)) 
+                                    if(!preg_match("/^[a-zA-Z ]+$/",$employer)) 
                                     {
                                       $error="Please enter valid employer";
                                       $flag=false;
@@ -544,7 +536,7 @@ if(isset($POST['data']) && $POST['data']=='1')
                                   }
                                    if($designation!='')
                                   {
-                                    if(!preg_match("/^[a-zA-Z]+$/",$designation)) 
+                                    if(!preg_match("/^[a-zA-Z \.\-]+$/",$designation)) 
                                     {
                                       $error="Please enter valid designation";
                                       $flag=false;

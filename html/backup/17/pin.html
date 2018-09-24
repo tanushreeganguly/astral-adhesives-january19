@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+
+<style>
+/* CSS map pins */
+
+body {
+	text-align: center;
+	margin:  80px;
+	background: #fff;
+}
+
+/*.pin.a {
+	display: inline-block;
+	width: 8px;
+	height: 8px;
+	background-color: #f33;
+	background-image: -webkit-linear-gradient(top, rgba(100,0,0,0), rgba(255,90,90,1));
+	background-image: -moz-linear-gradient(top, rgba(100,0,0,0), rgba(255,90,90,1));
+	background-image: -ms-linear-gradient(top, rgba(100,0,0,0), rgba(255,90,90,1));
+	background-image: -o-linear-gradient(top, rgba(100,0,0,0), rgba(255,90,90,1));
+	background-image: linear-gradient(to bottom, rgba(100,0,0,0), rgba(255,90,90,1));
+	-webkit-border-radius: 100%;
+	-moz-border-radius: 100%;
+	border-radius: 100%;
+	box-shadow: 0 0 0 1px #c00, inset 0 1px 1px rgba(255,255,255,.6), 0 2px 2px rgba(0,0,0,.4);
+	position: relative;
+}
+
+.pin.a:after,  {
+	height: 15px;
+	width: 2px;
+	content:'';
+	background: #aaa;
+	display: block;
+	position: absolute;
+	z-index: -1;
+	left: 3px;
+	top: 100%;
+	-webkit-box-shadow: 0 1px 2px 1px rgba(0,0,0,.1), inset 1px 0 rgba(255,255,255,.3);
+	-moz-box-shadow: 0 1px 2px 1px rgba(0,0,0,.1), inset 1px 0 rgba(255,255,255,.3);
+	box-shadow: 0 1px 2px 1px rgba(0,0,0,.1), inset 1px 0 rgba(255,255,255,.3);
+}
+
+.pin.b {
+	margin-top: 40px;
+	background: transparent;
+	display: inline-block;
+	border-radius: 14px 14px 14px 0;
+	width: 8px;
+	height: 8px;
+	border: 6px solid #f33;
+	-webkit-transform: rotate(-45deg);
+	-moz-transform: rotate(-45deg);
+	-ms-transform: rotate(-45deg);
+	-o-transform: rotate(-45deg);
+	transform: rotate(-45deg);
+	position: relative;
+	-webkit-box-shadow: -1px 1px 2px rgba(0,0,0,.2);
+	-moz-box-shadow: -1px 1px 2px rgba(0,0,0,.2);
+	box-shadow: -1px 1px 2px rgba(0,0,0,.2);
+}
+*/
+
+.msparent { margin-top:-50px;}
+.msparent:nth-child(odd) { width:320px; padding:0 600px 0 0;  background-image:url(assets/images/bg-1.png);  background-repeat:no-repeat;}
+
+.msparent:nth-child(even) { width:320px; padding:0 0 0 600px;  background-image:url(assets/images/bg-2.png);  background-repeat:no-repeat; }
+
+.ms-container {position:relative; width:320px; height:150px; padding:0; margin:0 auto; }
+
+.ms-detail { font-size:16px; background-color:#EBEBEB;  	border-radius: 30px;	-webkit-border-radius: 30px;	-moz-border-radius:30px; padding:10px 10px 10px 100px; display:block; text-align:left;  }
+.ms-year {
+	margin-top: 40px;
+	background: #fff;
+	display: inline-block;
+	border-radius: 90px 90px 90px 0;	-webkit-border-radius: 90px 90px 90px 0;	-moz-border-radius: 90px 90px 90px 0;
+	width: 84px;
+	height: 84px;
+	border: 15px solid #008AFA;
+	-webkit-transform: rotate(-45deg);
+	-moz-transform: rotate(-45deg);
+	-ms-transform: rotate(-45deg);
+	-o-transform: rotate(-45deg);
+	transform: rotate(-45deg);
+	position: relative;
+	-webkit-box-shadow: -1px 1px 2px rgba(0,0,0,.2);
+	-moz-box-shadow: -1px 1px 2px rgba(0,0,0,.2);
+	box-shadow: -1px 1px 2px rgba(0,0,0,.2);	position:absolute;	    left: -30px;    top: -70px;
+}
+.year {
+	margin-top: 0px;
+	background: #fff;
+	display: inline-block;
+	border-radius: 90px ;
+	width: 82px;
+	height: 82px;
+	border: 1px solid #fff;
+	-webkit-transform: rotate(45deg);
+	-moz-transform: rotate(45deg);
+	-ms-transform: rotate(45deg);
+	-o-transform: rotate(45deg);
+	transform: rotate(45deg);
+	position: relative;
+	/*-webkit-box-shadow: -1px 1px 2px rgba(0,0,0,.2);
+	-moz-box-shadow: -1px 1px 2px rgba(0,0,0,.2);
+	box-shadow: -1px 1px 2px rgba(0,0,0,.2);*/
+	font-size:30px; display:table-cell; vertical-align:middle;
+
+}
+
+
+@media screen and (max-width:1000px){
+.msparent { margin-top:0px; padding:0!important; background:none!important; margin:0 auto;}
+.ms-container { width:240px;}
+}
+
+</style>
+</head>
+
+<body>
+
+<!--<span class="pin a"></span>
+<br>
+<span class="pin b"></span>
+<br>-->
+
+<div class="msparent">
+<div class="ms-container">
+<span class="ms-detail">First to introduce CPVC piping system in India</span>
+<span class="ms-year"><span class="year">1999</span></span>
+</div>
+</div>
+
+<div class="msparent">
+<div class="ms-container">
+<span class="ms-detail">First to launch lead free uPVC piping system in India</span>
+<span class="ms-year"><span class="year">2004</span></span>
+</div>
+</div>
+
+<div class="msparent">
+<div class="ms-container">
+<span class="ms-detail">Corp Excel-National SME Excellence Award</span>
+<span class="ms-year"><span class="year">2006</span></span>
+</div>
+</div>
+
+<div class="msparent">
+<div class="ms-container">
+<span class="ms-detail">First to get NSF Certification for CPVC piping system in India</span>
+<span class="ms-year"><span class="year">2006</span></span></div>
+</div>
+ 
+<br />
+
+</body>
+</html>

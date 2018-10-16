@@ -87,7 +87,7 @@ $POST   = $objTypes->validateUserInput($_REQUEST);
     <?php include_once('include/header.php'); ?>
     <section id="breadcrumbs">
       <div class="container">
-        <a href="<?=base_url?>">Home</a>Career
+        <a href="<?=base_url?>">Home</a>Careers
       </div>
     </section>
  <!--script type="in/Login"></script-->
@@ -111,7 +111,7 @@ $POST   = $objTypes->validateUserInput($_REQUEST);
                   <span>Location</span>
                   <span>
                   <?php 
-                    $loc_sql    = "select distinct(location) from tbl_careers where is_delete = 1 and is_active = 1 order by id DESC";
+                    $loc_sql    = "select distinct(location) from tbl_careers where is_delete = 1 and is_active = 1";
                     $loc_arr    = $objTypes->fetchAll($loc_sql);
                     if(isset($loc_arr) && sizeof($loc_arr) > 0 ) { 
                     ?>                    
@@ -145,7 +145,7 @@ $POST   = $objTypes->validateUserInput($_REQUEST);
                   <span>Department</span>
                   <span>
                      <?php 
-                    $depart_sql    = "select distinct(department) from tbl_careers where is_delete = 1 and is_active = 1 order by id DESC";
+                    $depart_sql    = "select distinct(department) from tbl_careers where is_delete = 1 and is_active = 1";
                     $depart_arr    = $objTypes->fetchAll($depart_sql);
                     if(isset($depart_arr) && sizeof($depart_arr) > 0 ) { 
                     ?>     
@@ -189,22 +189,23 @@ $POST   = $objTypes->validateUserInput($_REQUEST);
 			<img src="<?=base_url?>assets/images/loading.gif">
 		  </div>
 	  <div id="current_opening_ajax"> <!--custom div-->
-		  <?php $result	= $objTypes->fetchAll("SELECT job_code,id,location,title,department,education,from_experience,to_experience,from_date,to_date FROM tbl_careers WHERE is_delete = 1 and is_active = 1  order by job_code asc");
+		  <?php
+       $result	= $objTypes->fetchAll("SELECT job_code,id,location,title,department,education,from_experience,to_experience,from_date,to_date FROM tbl_careers WHERE is_delete = 1 and is_active = 1  order by job_code asc");
 			$html = ''; 
 			if(sizeof($result) > 0){ ?>
 	<div class="cr_block opening">
             <h3>Current Opening</h3>
-            <div class="error_data">
+            
+          </div>
+          <div class="error_data">
               <?php
                 if(isset($POST['msg']) && $POST['msg']==1){ ?>
-                    Successfully applied for Job..!
+                   <p> Successfully applied for Job..!</p>
 
                 <?php }
                  ?>
 
             </div>
-          </div>
-
           <div class="opening_table_con">
             <div class="opening_details">
               <ul>
@@ -224,11 +225,11 @@ $POST   = $objTypes->validateUserInput($_REQUEST);
 	  <ul>
 	    <li>
 	      <span><?=$res['job_code']?></span>
-	      <span><?=$res['title']?>
-	        <div class="loc"><?=$res['location']?></div>
+	      <span><?=stripslashes($res['title'])?>
+	        <div class="loc"><?=stripslashes($res['location'])?></div>
 	      </span>
-	      <span><?=$res['department']?></span>
-	      <span><?=$res['education']?></span>
+	      <span><?=stripslashes($res['department'])?></span>
+	      <span><?=stripslashes($res['education'])?></span>
 	      <span><?=$res['from_experience']?>-<?=$res['to_experience']?> years</span>
 	      <span><?=date('d/m/Y',strtotime($res['from_date']));?>
 	        <br> TO

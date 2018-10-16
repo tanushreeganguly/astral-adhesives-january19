@@ -52,7 +52,7 @@ $TypeArray	= $objTypes->fetchRow("SELECT * FROM tbl_pressrelease WHERE id = :id"
                 <textarea class="form-control" placeholder="Short Description..." name="short_description" id="short_description" rows="3" style="width:40%;"><?=($TypeArray['short_description'])?></textarea>
               </div>
               <div class="form-group">
-                <label for="exampleInputEmail1">Link</label>
+                <label for="exampleInputEmail1">Link<?=MANDATORY?></label>
                 <input type="url" class="form-control " id="link" name="link" value="<?=stripslashes($TypeArray['link'])?>" placeholder="Link" style="width:40%;">
               </div>
 			  
@@ -66,7 +66,7 @@ $TypeArray	= $objTypes->fetchRow("SELECT * FROM tbl_pressrelease WHERE id = :id"
                 </div>
               </div>
              	<div class="form-group" id="Imagelink">
-                <label for="exampleInputEmail1">Image<?=MANDATORY?></label>
+                <label for="exampleInputEmail1">Image</label>
                 <input type="file" class="form-control " id="image" name="image" value="" placeholder=" Testimonial Image" style="width:40%;" onchange="return Checkfile()">
                 <div class="alert alert-danger alert-dismissible" style="width:40%;margin-top:10px;">[Note:- File Size : 440X295  , MAX File Upload Size : 3MB]</div>
                 <?php if($TypeArray['thumbnail']){ ?>
@@ -135,7 +135,7 @@ else{
 function validateForm(){
 	if($("input#title").val()==""){
 		$(".errorDiv").show().fadeOut(4000);
-		$('#errormessage').text("Category Title is Mandatory");
+		$('#errormessage').text("Title is Mandatory");
 		$("input#title").focus();
 		return false;
 	}

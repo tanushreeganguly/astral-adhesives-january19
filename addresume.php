@@ -1,14 +1,13 @@
 <?php include_once('config/config.php');
- require_once('include/form_token.php');
- $token = new FormToken();
-/*if(!class_exists('FormToken'))
+ 
+if(!class_exists('FormToken'))
 {
   if(!require_once('include/form_token.php')){
     die('Class FormToken Not Exists.');
   }else{
     $token = new FormToken();
   }
-} */
+} 
 if(!class_exists('PHPMailer')){
   if( !require_once( 'include/PHPMailer/PHPMailerAutoload.php' )){
     die('PHPMailer Class Does not Exists!');
@@ -54,6 +53,7 @@ if(isset($POST['data']) && $POST['data']=='1')
     $flag  = false;
   }
 
+if(strlen($error)<=0){
   if($name==""){
     $error  = "Please enter name";
     $flag = false;
@@ -67,6 +67,8 @@ if(isset($POST['data']) && $POST['data']=='1')
     $flag = false;
     $ser_nclass = "name";
   }
+}
+if(strlen($error)<=0){
   if($email=="" ){
     $error  = "Please enter email id";
     $flag = false;
@@ -78,6 +80,8 @@ if(isset($POST['data']) && $POST['data']=='1')
       $ser_eclass = "email";
     }
   }
+}
+if(strlen($error)<=0){
   if($mobile=="" ){
     $error  = "Please enter mobile number";
     $flag = false;
@@ -98,6 +102,8 @@ if(isset($POST['data']) && $POST['data']=='1')
           $flag=false;
         }
     }
+  }
+if(strlen($error)<=0){
    if($resume_title!='') 
       {   
         if(!preg_match("/^[a-zA-Z 0-9]+$/",$resume_title)) 
@@ -106,6 +112,8 @@ if(isset($POST['data']) && $POST['data']=='1')
           $flag=false;
         }
       }
+    }
+    if(strlen($error)<=0){
 
       if(isset($_FILES['resume']['name']) && $_FILES['resume']['name'] != ""){
         $filesize= $_FILES['resume']['size'];
@@ -120,7 +128,7 @@ if(isset($POST['data']) && $POST['data']=='1')
        
       }
 
-       
+    }   
 
     if($flag==true && strlen($error)<=0){
 
@@ -137,6 +145,7 @@ if(isset($POST['data']) && $POST['data']=='1')
 
             $insert_serve = $objTypes->insert("tbl_career_apply", $insertarray);
             $userid = $objTypes->lastInsertId();
+            
 			      $ref_no = 'AA000-'.$userid;
             $params = array(
                               'ref_no'    => 'AA000-'.$userid
@@ -205,7 +214,7 @@ if(isset($POST['data']) && $POST['data']=='1')
                             $inser_data = $objTypes->update("tbl_job_user", $params, "id = :id", $where);
                           }
 
-                            $mail->IsSMTP();
+                           /* $mail->IsSMTP();
                             $mail->Mailer     = "smtp";
                             $mail->Host       = "astraladhesives.com"; 
                             $mail->SMTPDebug  = 0; 
@@ -222,7 +231,7 @@ if(isset($POST['data']) && $POST['data']=='1')
                             $mail->isHTML(true);  
                             
                             $mail->Subject  = 'Career';     
-                            $mail->Body     = 'We appreciate your interest in our services. Our team will get in touch with you shortly. Your ref. no is AA000-'.$userid;
+                            $mail->Body     = 'We appreciate your interest in our services. Our team will get in touch with you shortly. Your ref. no is AA000-'.$userid;*/
                             
                             /*if(!$mail->send()){
                                $error="Error in sending message.";
@@ -284,9 +293,10 @@ if(isset($POST['data']) && $POST['data']=='1')
           <div class="cr_form_con">
             <h3>Future jobs</h3>
                <div class="errMsg"><?php echo $error;?></div>
+
              <form name='career_form' method='post' enctype='multipart/form-data'>
               <input type="hidden" name="data" value="1">
-           
+              <?php echo $token->outputKey(); ?>  
             <ul class="loc_info">
               <li>
                 <span><strong>Name*</strong></span>
@@ -356,6 +366,8 @@ if(isset($POST['data']) && $POST['data']=='1')
 
           $('input').on('keyup',function()
           {
+              $('input,select').removeClass('errorRed');
+              $('.errMsg').text('');
               $('.loc_info li span span').text(''); 
               $('input,select').removeClass('errorblue');
               $(this).addClass('errorblue');
@@ -364,6 +376,8 @@ if(isset($POST['data']) && $POST['data']=='1')
           
            $('select').on('change',function()
           {
+              $('input,select').removeClass('errorRed');
+              $('.errMsg').text('');
               $('.loc_info li span span').text(''); 
               $('input,select').removeClass('errorblue');
               $(this).addClass('errorblue');

@@ -1,5 +1,5 @@
 @media handheld, only screen and (max-width: 1600px){
-ul.slimmenu li ul{ padding: 10px 0px 0px 0px;}
+ul.slimmenu li ul{ padding: 30px 0px 0px 0px;}
 ul.slimmenu li ul li a{ line-height: 32px; }
 #slider_holder{
 	.bannerDet{ left: 10%;}
@@ -57,7 +57,7 @@ h2{ padding: 30px 80px 30px 80px;}
 .home{ overflow-x:hidden;}
 .headerCon{ max-width: 1100px;
 	.hd_bottom{
-		.logo{ margin-top: -30px;   }
+		.logo{ margin-top: -15px;   }
 	}
  }
 ul.slimmenu li a{ padding: 20px 15px 30px 15px; }
@@ -150,11 +150,11 @@ header{ position: fixed; width: 100%; /*height: 100%;*/ background: none;}
 
 
 	}
-	.hd_bottom{ /*padding: 0px 0px 5px 0px;*/ padding-bottom: 0px; background: #fff;
-		.logo{     z-index: 9;}
+	.hd_bottom{ padding: 7px 0px 0px 0px; background: #fff;
+		.logo{ max-width: 110px; z-index: 9; margin-left: 10px;}
 		nav{position: fixed; left: -100%; top: 0px; width: 100%; max-width: 360px; height: 100%; padding-right: 0; padding-bottom: 30px; background: @color-blue; overflow-y:auto; z-index: 99; }
 	}
-	.res_top{ display: block; width: 100%;   background: #ffffff url(../images/header-border.png) repeat-x left bottom -1px;}
+	.res_top{ display: block; width: 100%; padding: 20px 0px 15px 0; background: #ffffff url(../images/header-border.png) repeat-x left bottom -1px;}
 	#nav-icon1{ display: block;}
 }
 /*.gutter{ display: none;}*/
@@ -319,14 +319,17 @@ header{ position: fixed; width: 100%; /*height: 100%;*/ background: none;}
 	.select_category, .select_brand{ display: block;}
 
 	.category_holder{ width: 100%; max-width: 300px; margin: 0 auto 10px auto;
-		ul{ position: absolute; left: 0px; top: 44px; width: 100%; background: #f6f8fb; z-index: 9; display: none; }
-		li{ display: block; width: 100%; padding: 0;}
+		ul{ position: absolute; left: 0px; top: 68px; width: 100%;  background: #f6f8fb; z-index: 9; display: none; }
+		li{ display: block; width: 100%; text-align: left; padding: 0; margin-bottom: 0;
+			a{padding: 20px 10px;}
+		}
 	}
 
 	.sub_category_hld{ display: block; width: 100%; max-width: 300px; padding: 0; margin: 0 auto;
-		ul{ position: absolute; left: 0px; top: 44px; width: 100%; background: #f6f8fb; z-index: 9; display: none;}
-		li{display: block; padding: 0;
+		ul{ position: absolute; left: 0px; top: 67px; width: 100%; background: #f6f8fb; z-index: 9; display: none;}
+		li{display: block; padding: 0; text-align: left;  margin-bottom: 0; 
 			&:first-child{ display: none;}
+			a{padding: 20px 10px;}
 		}
 	}
 
@@ -444,7 +447,7 @@ header{ position: fixed; width: 100%; /*height: 100%;*/ background: none;}
 @media handheld, only screen and (max-width: 767px){
 .headerCon{
 	.hd_bottom{
-		.logo{ top: 18px; max-width: 285px; }
+		.logo{ top: 18px; /*max-width: 285px;*/ }
 	}
 }
 h2{ padding: 10px 60px 10px 60px; }
@@ -689,7 +692,7 @@ h2{ font-size: 26px; }
 }
 .headerCon{
 	.hd_bottom{
-		.logo{ left: 10px; top: 20px; max-width: 240px; }
+		.logo{ left: 10px; top: 20px; /*max-width: 240px;*/ }
 	}
 }
 #slider_holder{
@@ -734,8 +737,6 @@ h2{ font-size: 26px; }
 	}
 }
 .mobileMenuClose{ display: block;}
-ul.slimmenu.collapsed li a{ }
-ul.slimmenu.collapsed li ul li a{ /* padding: 3px 19px 3px 10px; */}
 #slider_holder{
 	.bannerDet{ width: 100%; max-width: 100%; position: relative; left: auto; top: auto; font-size: 20px; text-align: center; -moz-transform: translateY(0); -o-transform: translateY(0); -webkit-transform: translateY(0); transform: translateY(0); padding-top: 10px; 
 	}
@@ -806,7 +807,7 @@ ul.slimmenu.collapsed li ul li a{ /* padding: 3px 19px 3px 10px; */}
 h2{ font-size: 26px; padding: 0px 0px 10px 0px; background: none!important; }
 .headerCon{
 	.hd_bottom{
-		.logo{top: 22px; max-width: 200px; }
+		.logo{top: 22px; /*max-width: 200px;*/ }
 	}
 }
 #application{

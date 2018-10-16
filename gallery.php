@@ -6,13 +6,18 @@ $sqlimage=$objTypes->fetchall('select title1,title2,location,id,image1,thumbnail
 $totalvideo=$objTypes->fetchall('select title1,title2,location,image1,thumbnail1,youtube from tbl_adhesive where is_active=1 and type="video" and is_delete=1 order by id desc');
 $total_video=count($totalvideo);
 $sqlvideo=$objTypes->fetchall('select title1,title2,location,image1,thumbnail1,youtube from tbl_adhesive where is_active=1 and type="video" and is_delete=1 order by id desc limit 0,6');
+
 if($_REQUEST['type']=='video')
 {
 	$typeClass = 'activeTab';
+	$style_video="display:block";
+	$style_image="display:none";
 }
 else
 {
 	$typeClassG = 'activeTab';
+	$style_image="display:block";
+	$style_video="display:none";
 }
 
 ?>
@@ -57,7 +62,7 @@ else
               </div>   
             </div>
 			
-            <div class="galleryCon" id="gallery_photo">
+            <div class="galleryCon" id="gallery_photo" style=" <?php echo $style_image;?>">
 			
 			<input type="hidden" name="count_image" id="count_image" value="<?php echo count($sqlimage);?>">
 			<?php
@@ -82,8 +87,7 @@ else
               <div class="galleryBlurb">
                   <h3><?php echo stripslashes($image_list['title1'])." ".stripslashes($image_list['title2']); if($image_list['location']!=""){ echo ",".stripslashes($image_list['location']);}?></h3>
                   <div class="galleryImg">
-				  <a id="<?php echo $image_list['id'];?>" data-links="<?php echo $image_gallery_list;?>" 
-                    class="magnific-gallery">
+				  <a id="<?php echo $image_list['id'];?>" data-links="<?php echo $image_gallery_list;?>" class="magnific-gallery">
                       <img orgSrc="<?=base_url?>uploads/astral_adhesive_image/large/<?php echo $image_list['image1']?>" src="<?=base_url?>assets/images/loader-gallery.gif" alt="" class="loader_gif">
                     </a>
                    <!-- <a href="<?=base_url?>uploads/astral_adhesive_image/large/<?php echo $image_list['image1']?>" class="image_link">
@@ -105,7 +109,7 @@ else
               <?php }?>
             </div>
 
-            <div class="galleryCon" id="gallery_video">
+            <div class="galleryCon" id="gallery_video"  style=" <?php echo $style_video;?>">
 			<input type="hidden" name="count_video" id="count_video" value="<?php echo count($sqlvideo);?>">
 			<?php
 				 $countvideo=count($sqlvideo);
@@ -116,7 +120,7 @@ else
 				<h3><?php echo stripslashes($video_list['title1'])." ".stripslashes($video_list['title2']); if($video_list['location']!=""){ echo ",".stripslashes($video_list['location']);}?></h3>
                     <div class="galleryImg">
                         <a href="http://www.youtube.com/watch?v=<?php echo stripslashes($video_list['youtube']);?>" class="video_link">
-                          <img orgSrc="<?=base_url?>uploads/astral_adhesive_image/large/<?php echo stripslashes($video_list['image1']);?>" src="<?=base_url?>assets/images/loader-gallery-2.gif" alt="" class="loader_gif">
+                          <img orgSrc="<?=base_url?>uploads/astral_adhesive_image/large/<?php echo stripslashes($video_list['image1']);?>" src="<?=base_url?>assets/images/loader-gallery.gif" alt="" class="loader_gif">
                           <div class="video_play"><img src="<?=base_url?>assets/images/play-btn.png" alt=""></div>
                         </a>
                     </div>
@@ -156,54 +160,60 @@ else
     <script type="text/javascript" src="<?=base_url?>assets/js/common.js"></script>
     <script type="text/javascript" src="<?=base_url?>assets/js/gallery.js"></script>
 	<script type="text/javascript">
-	$('#load_image').on('click',function(){
-		var total_image='<?php echo $totalimg;?>';
-		var getUrl = window.location;
-		var baseUrl = getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
-		var img_count=$('#count_image').val();
-		var var2=6;
-				$.ajax({
-							type: "POST",
-							data:{'last_data':img_count},
-							url: baseUrl+'/gallery_image.php',
-							success:function(response){
-								$(".new_image").append(response);
-								//console.log(response);
-								var sum = Number(img_count) + Number(var2);
-								
-								$('#count_image').val(sum);
-								if(total_image<sum){
-									$("#load_img").hide();
+		$(document).ready(function(){
+			var data = window.location;
+			var arr = data.split('/');
+			var num=count(arr);
+			//alert(num);
+		});
+		$('#load_image').on('click',function(){
+			var total_image='<?php echo $totalimg;?>';
+			var getUrl = window.location;
+			var baseUrl = getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
+			var img_count=$('#count_image').val();
+			var var2=6;
+					$.ajax({
+								type: "POST",
+								data:{'last_data':img_count},
+								url: baseUrl+'/gallery_image.php',
+								success:function(response){
+									$(".new_image").append(response);
+									//console.log(response);
+									var sum = Number(img_count) + Number(var2);
+									
+									$('#count_image').val(sum);
+									if(total_image<sum){
+										$("#load_img").hide();
+									}
 								}
-							}
 
-					});
-		
-	});
-	$('#load_video').on('click',function(){
-		var total_video='<?php echo $total_video;?>';
-		var getUrl = window.location;
-		var baseUrl = getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
-		var video_count=$('#count_video').val();
-		var var2=6;
-				$.ajax({
-							type: "POST",
-							data:{'last_data':video_count},
-							url: baseUrl+'/gallery_video.php',
-							success:function(response){
-								
-								$(".new_video").html(response);
-								
-								var sum = Number(video_count) + Number(var2);
-								$('#count_video').val(sum);
-								if(total_video<sum)
-								{
-									$("#loadvideo").hide();
+						});
+			
+		});
+		$('#load_video').on('click',function(){
+			var total_video='<?php echo $total_video;?>';
+			var getUrl = window.location;
+			var baseUrl = getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
+			var video_count=$('#count_video').val();
+			var var2=6;
+					$.ajax({
+								type: "POST",
+								data:{'last_data':video_count},
+								url: baseUrl+'/gallery_video.php',
+								success:function(response){
+									
+									$(".new_video").html(response);
+									
+									var sum = Number(video_count) + Number(var2);
+									$('#count_video').val(sum);
+									if(total_video<sum)
+									{
+										$("#loadvideo").hide();
+									}
 								}
-							}
-					});
-		
-	});
+						});
+			
+		});
 	</script>
     
     <!--[if lt IE 9]>

@@ -1,4 +1,4 @@
-<?php include_once('config/config.php'); ?>
+<?php include_once('config/config.php');?>
 <!doctype html>
 <!--<html oncontextmenu="return false;">-->
 <html>

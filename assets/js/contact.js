@@ -96,7 +96,7 @@ function mobileCorporateAnim(){
                 TweenMax.to('.arrow',0.5, {rotation: 0, ease:Sine.easeInOut});
                 TweenMax.to(currHeading.find('.arrow'),0.5, {rotation: -180, ease:Sine.easeInOut});
                 currHeading.addClass('openAdd');
-                $("html, body").animate({ scrollTop:($(currHeading).offset().top - 280) }, {duration:1200});
+                $("html, body").animate({ scrollTop:($(currHeading).offset().top - 310) }, {duration:1200});
             }
         });
     }
@@ -116,7 +116,7 @@ function mobileGlobalAnim(){
             $(currId).slideDown(300);
             TweenMax.to(globlaHead.find('.arrow'),0.5, {rotation: 0, ease:Sine.easeInOut});
             TweenMax.to($(this).find('.arrow'),0.5, {rotation: -180, ease:Sine.easeInOut});
-            $("html, body").animate({ scrollTop:($(this).offset().top - 220) }, {duration:1200});
+            $("html, body").animate({ scrollTop:($(this).offset().top - 260) }, {duration:1200});
         });
     });
 }

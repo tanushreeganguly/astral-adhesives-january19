@@ -101,7 +101,7 @@ if(($POST['SAVE']=="SAVE"))
 				$main_height11= "200";
 
 				$magicianObj = new imageLib($path1);
-				$magicianObj->resizeImage($main_width11, $main_height11);
+				$magicianObj->resizeImage($main_width11, $main_height11,$option = 2);
 				$magicianObj->saveImage($main_image11, 100);
 
 				$thumb_image1 = "../uploads/astral_adhesive_image/large/thumb_".$filename1;
@@ -109,7 +109,7 @@ if(($POST['SAVE']=="SAVE"))
 				$thumb_height1= "416";
 
 				$magicianObj2 = new imageLib($path1);
-				$magicianObj2->resizeImage($thumb_width1, $thumb_height1);
+				$magicianObj2->resizeImage($thumb_width1, $thumb_height1, $option = 2);
 				$magicianObj2->saveImage($thumb_image1, 100);
 
 				$img_params = array('image1' => 'main_'.$filename1, 'thumbnail1' => 'thumb_'.$filename1);

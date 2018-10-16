@@ -218,6 +218,7 @@ header {
   margin: 0 auto;
 }
 .headerCon .hd_top {
+  position: relative;
   width: 100%;
   font-family: 'AvenirLTStdRoman', Arial, Helvetica, sans-serif;
   font-size: 16px;
@@ -278,16 +279,16 @@ header {
 .headerCon .hd_bottom .logo {
   display: inline-block;
   width: 29.68%;
-  max-width: 380px;
+  max-width: 220px;
   vertical-align: top;
-  margin-top: -60px;
+  margin-top: -35px;
 }
 .headerCon .hd_bottom .logo img {
   height: auto;
   max-width: 100%;
 }
 .headerCon .hd_bottom nav {
-  position: relative;
+  /*position: relative;*/
   display: inline-block;
   width: 70.32%;
   text-align: right;
@@ -300,8 +301,8 @@ header {
 }
 .headerCon .search {
   position: absolute;
-  right: 8px;
-  top: 10px;
+  right: 10px;
+  top: 67px;
   cursor: pointer;
 }
 .res_top {
@@ -2768,6 +2769,15 @@ h2 span {
   display: inline-block;
   width: 50%;
   padding: 0 5px 10px 5px;
+  vertical-align: top;
+}
+.contact_forn_con .fieldHolder span span {
+  display: block;
+  font-size: 14px;
+  color: #2d2d2d;
+  text-align: center;
+  line-height: 100%;
+  padding-top: 5px;
 }
 .contact_forn_con .fieldHolder:last-child {
   display: block;
@@ -3133,6 +3143,10 @@ h2 span {
 }
 .careerCon .searchForm span:last-child {
   width: 75%;
+}
+.careerCon .searchForm span span {
+  display: block;
+  text-align: center;
 }
 .careerCon .searchForm .textBox {
   width: 100%;
@@ -3668,8 +3682,7 @@ h2 span {
   width: 35%;
 }
 .cr_form_con .other_info li:first-child span {
-  color: #0060ae;
-  /*font-size:10px; display: block;font-size:10px;display: block;*/
+  /*color:#0060ae; font-size:10px; display: block;font-size:10px;display: block;*/
   text-align: right;
   margin: 0;
 }
@@ -3998,6 +4011,9 @@ h2 span {
 }
 #search_con .search_txtBox::-ms-clear {
   display: none;
+}
+#search_con .errorblue {
+  border: none!important;
 }
 .searchData {
   min-height: 600px;
@@ -4390,6 +4406,7 @@ ul.slimmenu.collapsed li .sub-toggle {
 }
 ul.slimmenu li {
   position: relative;
+  /**/
   display: inline-block;
 }
 ul.slimmenu li:first-child {
@@ -4415,7 +4432,6 @@ ul.slimmenu li > ul {
   left: 0;
   top: 100%;
   z-index: 999;
-  display: none;
   width: 420px;
 }
 ul.slimmenu li > ul > li ul {
@@ -4452,6 +4468,7 @@ ul.slimmenu li .sub-toggle {
   height: 100%;
   text-align: center;
   cursor: pointer;
+  display: none;
 }
 ul.slimmenu li .sub-toggle:before {
   content: '';
@@ -4499,7 +4516,42 @@ ul.slimmenu li ul li a {
 ul.slimmenu li ul li a:hover {
   background-color: #0060ae;
 }
+ul.slimmenu .product_subnav {
+  position: initial;
+}
+ul.slimmenu .prod_sub_menu {
+  width: 100%;
+}
+ul.slimmenu .sub_nav_con {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  font-size: 0;
+  text-align: left;
+  margin: 0 auto;
+}
+ul.slimmenu .sub_nav_list {
+  display: inline-block;
+  width: 60%;
+  vertical-align: top;
+}
+ul.slimmenu .sub_nav_list li {
+  max-width: 440px;
+}
+ul.slimmenu .sub_img_ref {
+  display: inline-block;
+  width: 40%;
+  vertical-align: top;
+}
+ul.slimmenu .sub_img_ref img {
+  width: 100%;
+  height: auto;
+  display: none;
+}
 @media handheld, only screen and (max-width: 1157px) {
+  ul.slimmenu li .sub-toggle {
+    display: block;
+  }
   ul.slimmenu li .sub-toggle > i {
     visibility: visible;
   }
@@ -4563,6 +4615,15 @@ ul.slimmenu li ul li a:hover {
   }
   ul.slimmenu.collapsed li .sub-toggle.expanded {
     background: url(../images/subnaw-up.png) no-repeat right 20px top 13px;
+  }
+  ul.slimmenu .product_subnav {
+    position: relative;
+  }
+  ul.slimmenu .sub_nav_list {
+    width: 100%;
+  }
+  ul.slimmenu .sub_img_ref {
+    display: none;
   }
 }
 .tilesCon .tile_back_face .animDiv {
@@ -4936,7 +4997,7 @@ ul.slimmenu li ul li a:hover {
 }
 @media handheld, only screen and (max-width: 1600px) {
   ul.slimmenu li ul {
-    padding: 10px 0px 0px 0px;
+    padding: 30px 0px 0px 0px;
   }
   ul.slimmenu li ul li a {
     line-height: 32px;
@@ -5014,7 +5075,7 @@ ul.slimmenu li ul li a:hover {
     max-width: 1100px;
   }
   .headerCon .hd_bottom .logo {
-    margin-top: -30px;
+    margin-top: -15px;
   }
   ul.slimmenu li a {
     padding: 20px 15px 30px 15px;
@@ -5205,12 +5266,13 @@ ul.slimmenu li ul li a:hover {
     background: url(../images/res-insta.png) no-repeat center center;
   }
   .headerCon .hd_bottom {
-    /*padding: 0px 0px 5px 0px;*/
-    padding-bottom: 0px;
+    padding: 7px 0px 0px 0px;
     background: #fff;
   }
   .headerCon .hd_bottom .logo {
+    max-width: 110px;
     z-index: 9;
+    margin-left: 10px;
   }
   .headerCon .hd_bottom nav {
     position: fixed;
@@ -5228,6 +5290,7 @@ ul.slimmenu li ul li a:hover {
   .headerCon .res_top {
     display: block;
     width: 100%;
+    padding: 20px 0px 15px 0;
     background: #ffffff url(../images/header-border.png) repeat-x left bottom -1px;
   }
   .headerCon #nav-icon1 {
@@ -5571,7 +5634,7 @@ ul.slimmenu li ul li a:hover {
   #product .category_holder ul {
     position: absolute;
     left: 0px;
-    top: 44px;
+    top: 68px;
     width: 100%;
     background: #f6f8fb;
     z-index: 9;
@@ -5580,7 +5643,12 @@ ul.slimmenu li ul li a:hover {
   #product .category_holder li {
     display: block;
     width: 100%;
+    text-align: left;
     padding: 0;
+    margin-bottom: 0;
+  }
+  #product .category_holder li a {
+    padding: 20px 10px;
   }
   #product .sub_category_hld {
     display: block;
@@ -5592,7 +5660,7 @@ ul.slimmenu li ul li a:hover {
   #product .sub_category_hld ul {
     position: absolute;
     left: 0px;
-    top: 44px;
+    top: 67px;
     width: 100%;
     background: #f6f8fb;
     z-index: 9;
@@ -5601,9 +5669,14 @@ ul.slimmenu li ul li a:hover {
   #product .sub_category_hld li {
     display: block;
     padding: 0;
+    text-align: left;
+    margin-bottom: 0;
   }
   #product .sub_category_hld li:first-child {
     display: none;
+  }
+  #product .sub_category_hld li a {
+    padding: 20px 10px;
   }
   #product .prod_lt {
     width: 100%;
@@ -5804,7 +5877,7 @@ ul.slimmenu li ul li a:hover {
 @media handheld, only screen and (max-width: 767px) {
   .headerCon .hd_bottom .logo {
     top: 18px;
-    max-width: 285px;
+    /*max-width: 285px;*/
   }
   h2 {
     padding: 10px 60px 10px 60px;
@@ -6265,7 +6338,7 @@ ul.slimmenu li ul li a:hover {
   .headerCon .hd_bottom .logo {
     left: 10px;
     top: 20px;
-    max-width: 240px;
+    /*max-width: 240px;*/
   }
   #slider_holder .bannerDet .text_slide {
     font-size: 24px;
@@ -6343,9 +6416,6 @@ ul.slimmenu li ul li a:hover {
   }
   .mobileMenuClose {
     display: block;
-  }
-  ul.slimmenu.collapsed li ul li a {
-    /* padding: 3px 19px 3px 10px; */
   }
   #slider_holder {
     /* -webkit-transform: translate3d(0, -100%, 0); */
@@ -6460,7 +6530,7 @@ ul.slimmenu li ul li a:hover {
   }
   .headerCon .hd_bottom .logo {
     top: 22px;
-    max-width: 200px;
+    /*max-width: 200px;*/
   }
   #application .exploe_con p {
     font-size: 16px;

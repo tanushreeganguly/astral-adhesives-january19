@@ -6,8 +6,9 @@
 	#===== DBCONFIG START
     define("DB_HOST", "localhost");
     define("DB_USER", "root");
-    define("DB_PASS", "Lock2fit2017");
-    define("DB_DATABASE", "resinova");
+    //define("DB_PASS", "Lock2fit2017");
+	define("DB_PASS", "Lock2fit");
+    define("DB_DATABASE", "resinova_new");
 	define("SITE_NAME", "http://10.10.10.3/astral-adhesives/");
 
 	#===== PROTOCOL.

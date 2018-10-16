@@ -98,8 +98,15 @@ $(document).ready(function () {
     tabList.each(function () {
         $(this).bind('click', function () {
             var scrollPos = $(this).attr('scrollTo');
-            //console.log(currId);
-            $("html, body").animate({ scrollTop: ($(scrollPos).offset().top - 150) }, { duration: 1200 });
+            var pluser = 0;
+            if($('.product_graystrip').css("position") === "fixed"){
+                console.log('fixed');
+                pluser = 90;
+            }else{
+                console.log('not fixed');
+                pluser = 150;
+            }
+            $("html, body").animate({ scrollTop: ($(scrollPos).offset().top - pluser)}, { duration: 1200 });
         });
     });
     /*+++++++++++Scroll To Code++++++++++++*/

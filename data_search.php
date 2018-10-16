@@ -39,7 +39,7 @@ if($POST['search_data']!=""){
       <h3>
         <a href="<?=base_url.$value['url']?>" target="_blank"><?php echo stripslashes($value['title']);?></a>
       </h3> 
-			<p><?php echo substr(stripslashes($value['content']),0,100);?>...<a href="<?=base_url.$value['url']?>" target="_blank">Read More</a></p> </div> 
+			<p><?php echo substr(stripslashes(strip_tags($value['content'])),0,100);?>...<a href="<?=base_url.$value['url']?>" target="_blank">Read More</a></p> </div> 
 		<?php
 		}
   }else{?>

@@ -177,7 +177,7 @@ function curPageURL() {
         <div class="container">
 		<div class="error_log" style="color:red;"></div>
 		<form name="search" id="searchdata" method="post" action="<?=base_url?>data_search.php">
-          <input type="text" name="search_data" class="search_txtBox">
+          <input type="text" name="search_data" placeholder="Search" class="search_txtBox">
 		  </form>
           <div class="closeSearch">X</div>
         </div>

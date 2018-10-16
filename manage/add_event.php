@@ -57,7 +57,7 @@ $TypeArray	= $objTypes->fetchRow("SELECT * FROM tbl_event WHERE id = :id", $para
               </div>
 			  
 			  <div class="form-group">
-                <label for="exampleInputEmail1">Release date<?=MANDATORY?></label>
+                <label for="exampleInputEmail1">Release date</label>
                 <div class="input-group date" style="width:40%;">
                   <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
@@ -135,7 +135,7 @@ else{
 function validateForm(){
 	if($("input#title").val()==""){
 		$(".errorDiv").show().fadeOut(4000);
-		$('#errormessage').text("Category Title is Mandatory");
+		$('#errormessage').text("Title is Mandatory");
 		$("input#title").focus();
 		return false;
 	}

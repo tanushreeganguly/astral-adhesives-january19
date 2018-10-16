@@ -1,6 +1,7 @@
    <header>
         <div class="headerCon">
             <div class="hd_top">
+            <div class="search"><img src="<?=base_url?>assets/images/icon-search.png" onmouseover="this.src='<?=base_url?>assets/images/icon-search-hover.png'" onmouseout="this.src='<?=base_url?>assets/images/icon-search.png'" alt="Search"></div>
               <a href="tel:+91 7311103331">
                   <picture>
                     <source media="(max-width: 1157px)" srcset="<?=base_url?>assets/images/res-ph.png">
@@ -51,17 +52,20 @@
                         <li><a href="<?=base_url?>RnD">R &amp; D Facilities</a></li>
                       </ul>
                   </li>
-                  <li><a href="javascript:void(0);">Products </a>
+                  <li class="product_subnav"><a href="javascript:void(0);">Products </a>
 				  <?php
 					//home page application
 					$order1= 'sortorder ASC';
-					$sql = "SELECT title,id,icon FROM tbl_categories WHERE parent_category_id = :parent_category_id AND is_delete = :is_delete AND is_active = :is_active AND sortorder!=0  order by sortorder ASC";
+				  $sql = "SELECT title,id,thumbnail FROM tbl_categories WHERE parent_category_id = :parent_category_id AND is_delete = :is_delete AND is_active = :is_active AND sortorder!=0  order by sortorder ASC";
+
 					$bind= array(':parent_category_id' => 0, ':is_delete' => '1', ':is_active' => '1');
 					$ProData   = $objTypes->fetchAll($sql, $bind, $order1);
 					
 					
 				?>
-                    <ul>
+                <ul class="prod_sub_menu">
+                  <div class="sub_nav_con">
+                      <div class="sub_nav_list">
 					<?php
 					if(isset($ProData) && sizeof($ProData) > 0){
 					foreach($ProData as $indCat){
@@ -74,15 +78,25 @@
 					if($indCat['id']==28) { $title = 'furniture-wood-care-glue'; }  
 					
 					?>
-                      <li ><a href="<?=base_url?>p/<?=$title?>-<?=$indCat['id']?>"  style=" background-image:url(<?=base_url?>uploads/category_images/icon/<?php echo $indCat['icon'];?>);  background-repeat:no-repeat;" ><?php echo stripslashes($indCat['title']);?></a></li>
+                      <li ><a href="<?=base_url?>p/<?=$title?>-<?=$indCat['id']?>"><?php echo stripslashes($indCat['title']);?></a></li>
                       
 					  <?php
 						}
 					}
 					  ?>
-                    </ul>
-					
-                  </li>
+                    </div>
+                      <div class="sub_img_ref">
+                        <?php
+                        if(isset($ProData) && sizeof($ProData) > 0){
+                          foreach($ProData as $indCat){
+                            ?>
+                        <img src="<?=base_url?>uploads/category_images/<?php echo $indCat['thumbnail'];?>" alt="<?php echo stripslashes($indCat['title']);?>">
+                        <?php }}?>
+                      </div>
+                  </div>
+                  
+                </ul>
+              </li>
                   <li><a href="<?=base_url?>industrial-glue-adhesive">Industrial</a></li>
         				  <li><a href="javascript:;">Infocenter</a>
           					<ul>
@@ -97,7 +111,7 @@
                   
                   <li><a href="<?=base_url?>contact-us">Contact us</a></li>
                 </ul>
-       <div class="search"><img src="<?=base_url?>assets/images/icon-search.png" onmouseover="this.src='<?=base_url?>assets/images/icon-search-hover.png'" onmouseout="this.src='<?=base_url?>assets/images/icon-search.png'" alt="Search"></div>
+       
 
               </nav>
                <div class="menuOverlay"></div>

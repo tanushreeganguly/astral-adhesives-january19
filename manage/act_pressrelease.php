@@ -10,7 +10,7 @@ $id 		= isset($POST['id']) ? intval($POST['id']) : intval($_REQUEST['id']) ;
 $ip			= $_SERVER['REMOTE_ADDR'];
 $agent		= addslashes($_SERVER['HTTP_USER_AGENT']);
 
-print_r($POST); 
+//print_r($POST); 
 #==== ADD - UPDATE - INSERT 
 if(($POST['SAVE']=="SAVE")){
 	$pgNo 	= intval(base64_decode($_REQUEST['pgNo']));

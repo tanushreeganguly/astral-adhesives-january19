@@ -5,7 +5,7 @@ require_once("verify_logins.php");
 date_default_timezone_set('Asia/Calcutta'); 
 
 
-$select     = $objTypes->select("tbl_enquiry", "*", "", "", "id DESC");
+$select     = $objTypes->select("tbl_contact", "*", "", "", "id DESC");
 
 if($select && count($select) > 0){
 	
@@ -14,16 +14,8 @@ if($select && count($select) > 0){
 				<thead>
 					<tr>
 						<th>Name</th>
-						<th>Address</th>
-						<th>Country</th>
-						<th>State</th>
-						<th>City</th>
-						<th>Zip Code</th>
-						<th>Phone Number</th>
 						<th>Mobile Number</th>
 						<th>Email</th>
-						<th>Product Name</th>
-						
 						<th>Type</th>
 						<th>message</th>
 						<th>Date</th>
@@ -44,24 +36,16 @@ if($select && count($select) > 0){
 			$data .= "<tr>
 						
 						<td>".$rows['name']."</td>
-						<td>".$rows['address']."</td>
-						<td>".$rows['country']."</td>";
 						
-						$data .= "<td>".$rows['state']."</td>";
-						
-						$data .= "<td>".$rows['city']."</td>
-						
-						<td>".$rows['zip']."</td>
-						<td>".$rows['phone']."</td>
 						<td>".$rows['mobile']."</td>
 						
 						<td>".$rows['email']."</td>
-						<td>".$rows['product']."</td>
+						
 						<td>".$rows['contacttype']."</td>
 						<td>".$rows['message']."</td>
-						<td>".$rows['insert_date']."</td><td>";
+						<td>".$rows['insert_date']."</td>";
 						
-					$data .= "</td></tr>";
+					$data .= "</tr>";
 		
 		
 	}

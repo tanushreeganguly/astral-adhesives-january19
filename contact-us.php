@@ -1,16 +1,16 @@
 <?php
 include_once('config/config.php');
-require_once('include/form_token.php');
-$token = new FormToken();
+//require_once('include/form_token.php');
 
-/*if(!class_exists('FormToken'))
+
+if(!class_exists('FormToken'))
 {
 	if(!require_once('include/form_token.php')){
 		die('Class FormToken Not Exists.');
 	}else{
 		$token = new FormToken();
 	}
-}*/
+}
 function noHTML($input, $encoding = 'UTF-8') {
    return htmlentities($input, ENT_QUOTES | ENT_HTML5, $encoding);
 }
@@ -29,12 +29,23 @@ if(isset($POST['data']) && $POST['data']=='1')
 	$decodemessage= html_entity_decode($message, ENT_QUOTES | ENT_HTML5, 'UTF-8');
 	$error		= "";
 	$flag		= true;
-	
+	//$token = new FormToken();
 	if($token->validateKey() == false){
 		$error = "There is some problem, please try again.";		
 		$flag  = false;
 	}
+	if(strlen($error)<=0){
 	
+	if($contacttype!=""){
+		if(!preg_match('/^[a-zA-Z ]+$/',$contacttype)){
+			$error 	= "Please enter valid contacttype";
+			$flag	= false;
+			$ser_mclass = "message";
+			}
+		}
+	} 
+
+	if(strlen($error)<=0){
 	if($name==""){
 		$error 	= "Please enter name";
 		$flag	= false;
@@ -48,6 +59,8 @@ if(isset($POST['data']) && $POST['data']=='1')
 		$flag	= false;
 		$ser_nclass = "name";
 	}
+}
+if(strlen($error)<=0){
 	if($email=="" ){
 		$error 	= "Please enter email id";
 		$flag	= false;
@@ -59,6 +72,8 @@ if(isset($POST['data']) && $POST['data']=='1')
 			$ser_eclass = "email";
 		}
 	}
+}
+if(strlen($error)<=0){
 	if($mobile=="" ){
 		$error 	= "Please enter mobile number";
 		$flag	= false;
@@ -78,6 +93,8 @@ if(isset($POST['data']) && $POST['data']=='1')
           $flag=false;
         }
     }
+}
+if(strlen($error)<=0){
 	
 	if($message!=""){
 		if(!preg_match('/^[a-zA-Z0-9-!., ]+$/',$decodemessage)){
@@ -91,6 +108,7 @@ if(isset($POST['data']) && $POST['data']=='1')
 			$ser_mclass = "message";
 		}
 	}
+}
 	
 	if($flag==true && strlen($error)<=0){
 		
@@ -190,7 +208,7 @@ if(isset($POST['data']) && $POST['data']=='1')
   <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
-  <title><?=strip_tags(stripslashes($page['mta_title']))?></title>
+  <title><?=strip_tags(stripslashes($page['meta_title']))?></title>
   <meta name="description" content="<?=strip_tags(stripslashes($page['meta_description']))?>" />
   <meta name="keywords" content="<?=strip_tags(stripslashes($page['meta_keywords']))?>" />
   <link href="<?=base_url?>assets/images/favicon.ico" rel="shortcut icon" type="" />
@@ -226,6 +244,7 @@ if(isset($POST['data']) && $POST['data']=='1')
 				  <div class="errMsg"><?php echo $error;?></div>  
 			<form id="enguiry" method="post"action="#form_contact" >
 				 <div><input type="hidden" name="data" value="1"></div>
+				 <?php echo $token->outputKey(); ?>	
 				  <div class="fileldsCon">
 				    <div class="fieldHolder"> 
 						<select name="contacttype" id="contacttype" class="formSelectBox">
@@ -278,6 +297,26 @@ if(isset($POST['data']) && $POST['data']=='1')
 	
 	<script type="text/javascript">
 	$(document).ready(function(){
+		$('input,textarea').on('keyup',function()
+	      {
+	      	  $('input,select,textarea').removeClass('errorRed');
+	      	  $('.errMsg').text('');
+	      	  $('.fieldHolder span span').text(''); 
+	          $('input,select,textarea').removeClass('errorblue');
+	          $(this).addClass('errorblue');
+
+
+	       });
+	      
+	      $('select').on('change',function()
+	      {
+	      	  $('input,select,textarea').removeClass('errorRed');
+	      	  $('.errMsg').text('');
+	      	  $('.fieldHolder span span').text(''); 
+	          $('input,select').removeClass('errorblue');
+	          $(this).addClass('errorblue');
+
+	       });
 		 $('#name').keyup(function()
           {
               charactersonly(this);
@@ -302,19 +341,7 @@ if(isset($POST['data']) && $POST['data']=='1')
               $("#messagebox span").text('Only specific specialcharacters(.,!)');
 
           });
-          $('input,textarea').on('keyup',function()
-	      {
-	          $('input,select,textarea').removeClass('errorblue');
-	          $(this).addClass('errorblue');
-
-	       });
-	      
-	      $('select').on('change',function()
-	      {
-	          $('input,select').removeClass('errorblue');
-	          $(this).addClass('errorblue');
-
-	       });
+          
 	})	
 	$("#contactNow").on('click',function(){
 	$('input,select,textarea').removeClass('errorblue');

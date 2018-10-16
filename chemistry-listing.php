@@ -66,16 +66,17 @@ if($catgoryid > 0){
 
           <div class="prod_tab_hld">
             <div class="category_holder">
+            <h3 class="showonmobile"> Category: </h3>
             <div class="select_category"><span id="cat">Select Category </span><img src="<?=base_url?>assets/images/footer-arrow.png" alt=""></div>
-              <ul class="owl-carousel">
+              <ul class="owl-theme">
 			  <?php
 			  if(count($sql_chemistry)>0){
 			  foreach($sql_chemistry as $chemistry){
 				  if($chemistry['id']==$catgoryid){
 			  ?>
-                <li class="item"><a href="javascript:void(0);" class="activeCategory"><?php echo stripslashes($chemistry['title']);?></a></li>
+                <li><a href="javascript:void(0);" class="activeCategory"><?php echo stripslashes($chemistry['title']);?></a></li>
 				  <?php }else{?>
-                <li class="item"><a href="<?=base_url?>c/<?=$objTypes->prepare_url(stripslashes($data['title']))?>/<?=$objTypes->prepare_url(stripslashes($chemistry['title']))?>-<?=$chemistry['id']?>"><?php echo stripslashes($chemistry['title']);?></a></li>
+                <li><a href="<?=base_url?>c/<?=$objTypes->prepare_url(stripslashes($data['title']))?>/<?=$objTypes->prepare_url(stripslashes($chemistry['title']))?>-<?=$chemistry['id']?>"><?php echo stripslashes($chemistry['title']);?></a></li>
 			  <?php
 				   }
 				 } 
@@ -85,6 +86,7 @@ if($catgoryid > 0){
             </div>
 
             <div class="sub_category_hld">
+            <h3  class="showonmobile"> Brands: </h3>
             <div class="select_brand"><span id="branddata">Select Brand</span> <img src="<?=base_url?>assets/images/footer-arrow.png" alt=""></div>
               <ul>
                 <li><span>Brand Name :</span></li>
@@ -158,7 +160,9 @@ if($catgoryid > 0){
     <script type="text/javascript" src="<?=base_url?>assets/js/product.js"></script>
 	
     <script type="text/javascript">
+      
       $(document).ready(function(){
+        $("html, body").animate({ scrollTop: 500 },1000);
         $('.owl-carousel').owlCarousel({
           margin:0,
           loop:false,

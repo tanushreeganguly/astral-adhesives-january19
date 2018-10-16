@@ -36,18 +36,18 @@ $html_data='<div class="cr_form_con cr_info" id="job_'.$addjob.'">
                     <option value="" >Select</option>
           					<option value="account" >Account</option>
           					<option value="agriculture">Agriculture</option>
-          					<option value="advertising">Advertising/Media</option>
-          					<option value="army">Army/Airforce/</option>
+          					<option value="advertising">Advertising or Media</option>
+          					<option value="army">Army or Airforce/</option>
                     <option value="auto">Auto</option>
           					<option value="banking">Banking</option>
           					<option value="bpo">BPO</option>
-          					<option value="broking_house">Broking house</option>
+          					<option value="broking house">Broking house</option>
           					<option value="cement">Cement</option>
           					<option value="ceramic">Ceramic</option>
           					<option value="chemical">Chemical</option>
           					<option value="construction">Construction</option>
           					<option value="consultant">Consultant</option>
-          					<option value="consumer_durable">Consumer Durable</option>
+          					<option value="consumer durable">Consumer Durable</option>
           					<option value="courier">Courier</option>
           					<option value="dairy">Dairy</option>
           					<option value="design">Design</option>
@@ -61,21 +61,21 @@ $html_data='<div class="cr_form_con cr_info" id="job_'.$addjob.'">
                   <select name="designation_'.$addjob.'" id="designation_'.$addjob.'" class="selectBox">
                     <option option="">Select</option>	
           					<option option="assistant">Assistant</option>					
-                    <option option="jr_officer">Jr. Officer</option>
+                    <option option="jr officer">Jr. Officer</option>
           					<option option="officer">Officer</option>
-          					<option option="sr_officer">Sr. Officer</option>					
-          					<option option="jr_executive">Jr. Executive</option>
+          					<option option="sr officer">Sr. Officer</option>					
+          					<option option="jr executive">Jr. Executive</option>
           					<option option="executive">Executive</option>
-                    <option option="sr_executive">Sr. Executive</option>
-          					<option option="asst_manager">Asst. Manager</option>
-          					<option option="dy_manager">Dy. Manager</option>
+                    <option option="sr executive">Sr. Executive</option>
+          					<option option="asst manager">Asst. Manager</option>
+          					<option option="dy manager">Dy. Manager</option>
           					<option option="manager">Manager</option>
-          					<option option="sr_manager">Sr. Manager</option>
-          					<option option="asst_gm">Asst.GM</option>
+          					<option option="sr manager">Sr. Manager</option>
+          					<option option="asst gm">Asst.GM</option>
           					<option option="officer">Officer</option>
-          					<option option="dy_gm">Dy GM</option>
-          					<option option="sr_gmvpresident">Sr.GMVPPresident</option>
-          					<option option="jr_engineer">Jr.Engineer</option>
+          					<option option="dy gm">Dy GM</option>
+          					<option option="sr gmvpresident">Sr.GMVPPresident</option>
+          					<option option="jr engineer">Jr.Engineer</option>
                   </select>
                 </span>
               </li>
@@ -117,6 +117,29 @@ $html_data='<div class="cr_form_con cr_info" id="job_'.$addjob.'">
 	$( function() {
 
               var c="<?php echo $addjob;?>";
+              $('input').on('keyup',function()
+                {
+                    $('.per_info li span span').text(''); 
+                    $('.edu_info li span span').text(''); 
+                    $('.job_info li span span').text('');
+                    $('.loc_info li span span').text(''); 
+                    $('.other_info li span span').text(''); 
+                    $('input,select').removeClass('errorblue');
+                    $(this).addClass('errorblue');
+
+                 });
+                
+                 $('select').on('change',function()
+                {
+                    $('.per_info li span span').text(''); 
+                    $('.edu_info li span span').text(''); 
+                    $('.job_info li span span').text('');
+                    $('.loc_info li span span').text(''); 
+                    $('.other_info li span span').text('');
+                    $('input,select').removeClass('errorblue');
+                    $(this).addClass('errorblue');
+
+                 });
     
                $('#employer_'+c).keyup(function()
                 {
@@ -158,32 +181,10 @@ $html_data='<div class="cr_form_con cr_info" id="job_'.$addjob.'">
                     $("this").focus();
                     $("#grossbox_"+c+" span").text('Only alphanumerics');
                 });
-                $('input').on('keyup',function()
-                {
-                    $('.per_info li span span').text(''); 
-                    $('.edu_info li span span').text(''); 
-                    $('.job_info li span span').text('');
-                    $('.loc_info li span span').text(''); 
-                    $('.other_info li span span').text(''); 
-                    $('input,select').removeClass('errorblue');
-                    $(this).addClass('errorblue');
-
-                 });
                 
-                 $('select').on('change',function()
-                {
-                    $('.per_info li span span').text(''); 
-                    $('.edu_info li span span').text(''); 
-                    $('.job_info li span span').text('');
-                    $('.loc_info li span span').text(''); 
-                    $('.other_info li span span').text('');
-                    $('input,select').removeClass('errorblue');
-                    $(this).addClass('errorblue');
-
-                 });
 
          
-                  $( ".calendarBox" ).datepicker();
+                   $( ".calendarBox" ).datepicker({changeYear: true,maxDate: new Date(),yearRange: '1950:new Date("Y")'});
                  // $( "#start_date" ).datepicker();
                 } );
 

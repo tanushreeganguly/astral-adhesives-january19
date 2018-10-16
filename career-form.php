@@ -1,15 +1,14 @@
 <?php
 include_once('config/config.php');
-require_once('include/form_token.php');
-$token = new FormToken();
-/*if(!class_exists('FormToken'))
+
+if(!class_exists('FormToken'))
 {
   if(!require_once('include/form_token.php')){
     die('Class FormToken Not Exists.');
   }else{
     $token = new FormToken();
   }
-} */
+} 
 function noHTML($input, $encoding = 'UTF-8') {
    return htmlentities($input, ENT_QUOTES | ENT_HTML5, $encoding);
 }
@@ -20,32 +19,32 @@ if(!class_exists('PHPMailer')){
     $mail   = new PHPMailer();
   }
 }
-$POST   = 	$objTypes->validateUserInput($_REQUEST);
+$POST   =   $objTypes->validateUserInput($_REQUEST);
 
 
 function smssendotp($ref_no,$mobile)
 {
-		$ch = curl_init();  // initiate curl
-		$url = "http://www.smsjust.com/sms/user/urlsms.php?"; // where you want to post data - final
-		curl_setopt($ch, CURLOPT_URL,$url);
-		curl_setopt($ch, CURLOPT_POST, true);  // tell curl you want to post something
-		curl_setopt($ch, CURLOPT_POSTFIELDS, "username=astralpoly&pass=aptl@2017&senderid=ASTRAL&dest_mobileno=$mobile&message=Thank you for contacting us, your application reference number is $ref_no&response=Y"); 
-		curl_setopt ($ch, CURLOPT_RETURNTRANSFER, true);
-		$result = curl_exec($ch); 
-		if($result)
-		{
-			return 1; 
-		}else{
-			return 0; 
-		}
-		curl_close($ch);
+        $ch = curl_init();  // initiate curl
+        $url = "http://www.smsjust.com/sms/user/urlsms.php?"; // where you want to post data - final
+        curl_setopt($ch, CURLOPT_URL,$url);
+        curl_setopt($ch, CURLOPT_POST, true);  // tell curl you want to post something
+        curl_setopt($ch, CURLOPT_POSTFIELDS, "username=astralpoly&pass=aptl@2017&senderid=ASTRAL&dest_mobileno=$mobile&message=Thank you for contacting us, your application reference number is $ref_no&response=Y"); 
+        curl_setopt ($ch, CURLOPT_RETURNTRANSFER, true);
+        $result = curl_exec($ch); 
+        if($result)
+        {
+            return 1; 
+        }else{
+            return 0; 
+        }
+        curl_close($ch);
 }
 
 
-$jobid  =	intval($POST['id']);
-$result =	$objTypes->fetchRow("select job_code,department,title,to_experience from tbl_careers where id=".$jobid);
-$year	=	date('Y');
-$v		=	$year-30;
+$jobid  =   intval($POST['id']);
+$result =   $objTypes->fetchRow("select job_code,department,title,to_experience,id from tbl_careers where id=".$jobid);
+$year   =   date('Y');
+$v      =   $year-30;
 function pancard_validation($pan_no)
 {
   if (!preg_match("/^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/", $pan_no)) {
@@ -64,7 +63,7 @@ function aadhaar_validation($aadhaar_no)
 }
 if(isset($POST['data']) && $POST['data']=='1')
 {
-	 
+     
   $error   = "";
   $flag    = true;
   $job_code= noHTML(addslashes(strip_tags(trim($POST['job_code']))));
@@ -80,7 +79,8 @@ if(isset($POST['data']) && $POST['data']=='1')
   $aadhar  = noHTML(addslashes(strip_tags(trim($POST['aadhar']))));
   $country = noHTML(addslashes(strip_tags(trim($POST['country']))));
   $city    = noHTML(addslashes(strip_tags(trim($POST['city']))));
-  $dob    = noHTML(date('Y-m-d',strtotime(trim($POST['dob']))));
+  $dob1    = noHTML(trim(strip_tags(addslashes($POST['dob']))));
+  $dob  = html_entity_decode($dob1, ENT_QUOTES | ENT_HTML5, 'UTF-8');
   if($country=='India'){
      $state    = noHTML(addslashes(strip_tags(trim($POST['state']))));
    }else{
@@ -88,7 +88,7 @@ if(isset($POST['data']) && $POST['data']=='1')
    }
   $alternate= noHTML(addslashes(strip_tags(trim($POST['alternate']))));
   $language= noHTML(addslashes(strip_tags(trim($POST['language']))));
-  $medium	= noHTML(addslashes(strip_tags(trim($POST['medium']))));
+  $medium   = noHTML(addslashes(strip_tags(trim($POST['medium']))));
   $year_from    = noHTML(addslashes(strip_tags(trim($POST['year_from']))));
   $year_to    = noHTML(addslashes(strip_tags(trim($POST['year_to']))));
   $institute_name= noHTML(addslashes(strip_tags(trim($POST['institute_name']))));
@@ -102,7 +102,8 @@ if(isset($POST['data']) && $POST['data']=='1')
   $job_id= noHTML(addslashes(strip_tags(trim($POST['job_id']))));
   $willing_relocate= noHTML(addslashes(strip_tags(trim($POST['willing_relocate']))));
   $option_state= noHTML(addslashes(strip_tags(trim($POST['option_state']))));
-  $option_city= noHTML(addslashes(strip_tags(trim($POST['option_city']))));
+  $option_city1= noHTML(addslashes(strip_tags(trim($POST['option_city']))));
+  $option_city= html_entity_decode($option_city1, ENT_QUOTES | ENT_HTML5, 'UTF-8');
   $notice_period= noHTML(addslashes(strip_tags(trim($POST['notice_period']))));
   $resume_title= noHTML(addslashes(strip_tags(trim($POST['resume_title']))));
   $jobdata= noHTML(addslashes(strip_tags(trim($POST['jobdata']))));
@@ -112,10 +113,13 @@ if(isset($POST['data']) && $POST['data']=='1')
           $error = "There is some problem, please try again.";    
           $flag  = false;
         }
-        if($name==""){
+        if(strlen($error)<=0){
+
+          if($name==""){
           $error  = "Please enter name";
           $flag = false;
           $nameclass = "errorRed";
+          
         }elseif(!preg_match('/^[a-z A-Z ]+$/',$name)){
           $error  = "Please enter valid name";
           $flag = false;
@@ -125,19 +129,57 @@ if(isset($POST['data']) && $POST['data']=='1')
           $flag = false;
           $nameclass = "errorRed";
         }
-
-       
-
-
-        if($pan!='')
-        {    
-          $pan_exist = pancard_validation($pan);
-          if($pan_exist==false){
-            $error  = "Please enter valid pan no";
-            $flag = false;
-            $panclass = "errorRed";
-          } 
         }
+        
+
+        if(strlen($error)<=0){
+          
+     
+        if(strlen($error)<=0 && strlen($dob1)<=0){
+          $error="Please select date of birth."; $flag=false;
+          $dobclass = "errorRed";
+        }else if(preg_match("/^(\d{4})\/(\d{2})\/(\d{2})$/", $dob, $matches)) {
+          if(checkdate($matches[2], $matches[3], $matches[1])) { 
+            if(!in_array($matches[1], range(1930, date('Y')))){
+              $error="Please select valid year."; $flag=false;
+              $dobclass = "errorRed";
+            }
+            if(!in_array($matches[2], range(1, 12))){
+              $error="Please select valid month."; $flag=false;
+               $dobclass = "errorRed";
+            }
+            if(!in_array($matches[3], range(1, 31))){
+              $error="Please select valid date."; $flag=false;
+               $dobclass = "errorRed";
+            }
+            
+          }
+          else{
+             $error="Please select valid date of birth."; $flag=false;
+              $dobclass = "errorRed";
+          }
+        }else if(!preg_match("/^[0-9\/]+$/D",$dob) && strlen($error)<=0) 
+        {
+          $error="Please enter valid date of birth."; $flag=false;
+          $dobclass = "errorRed";
+        }
+        }
+
+        if(strlen($error)<=0){
+
+
+          if($pan!='')
+          {    
+            $pan_exist = pancard_validation($pan);
+            if($pan_exist==false){
+              $error  = "Please enter valid pan no";
+              $flag = false;
+              $panclass = "errorRed";
+            } 
+          }
+        }
+        if(strlen($error)<=0){
+
         if($aadhar!='')
         {
           $exist = aadhaar_validation($aadhar); 
@@ -147,205 +189,276 @@ if(isset($POST['data']) && $POST['data']=='1')
             $aadharclass = "errorRed";
           }
         }
-      if($email=="" ){
-        $error  = "Please enter email id";
-        $flag = false;
-        $emailclass = "errorRed";
-      }else if($email!=''){   
-        if(!preg_match("/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/",$decodeemail)) 
-        {
-          $error="Plesae enter valid emailid ";
-          $flag=false;
-          $emailclass = "errorRed";
-        }
-      }
-      if($mobile=="" ){
-        $error  = "Please enter mobile number";
-        $flag = false;
-        $mobileclass = "errorRed";
       }
 
-      if($mobile!='') 
-      { 
-          if(strlen($mobile)!='10')
+      if(strlen($error)<=0){
+
+        if($email=="" ){
+          $error  = "Please enter email id";
+          $flag = false;
+          $emailclass = "errorRed";
+        }else if($email!=''){   
+          if(!preg_match("/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/",$decodeemail)) 
+          {
+            $error="Plesae enter valid emailid ";
+            $flag=false;
+            $emailclass = "errorRed";
+          }
+        }
+      }
+      if(strlen($error)<=0){
+
+        if($mobile=="" ){
+          $error  = "Please enter mobile number";
+          $flag = false;
+          $mobileclass = "errorRed";
+        }
+
+        if($mobile!='') 
+        { 
+            if(strlen($mobile)!='10')
+            { 
+              $error="Please Enter 10 Digit Mobile.";
+              $flag=false;
+              $mobileclass = "errorRed";
+              
+            }
+            if(!preg_match("/^[0-9]{10}+$/",$mobile)) 
+            {
+              $error="Plesae enter valid mobile number and max 10 digit";
+              $flag=false;
+              $mobileclass = "errorRed";
+            }
+        }
+      }
+      if(strlen($error)<=0){
+
+        if($country =='') 
+        {   
+            $error="Please enter state"; 
+            $flag=false;
+            $countryclass = "errorRed";
+        }
+        if($country!='') 
+        { 
+            if(!preg_match("/^[a-z A-Z &]+$/",$country)) 
+            {
+              $error="Please enter valid state"; 
+              $flag =false;
+              $countryclass = "errorRed";
+            }
+        }
+        }
+      if(strlen($error)<=0){
+
+        if($state =='') 
+        {   
+            $error="Please enter state"; 
+            $flag=false;
+            $stateclass = "errorRed";
+        }
+        if($state!='') 
+        { 
+            if(!preg_match("/^[a-z A-Z &]+$/",$state)) 
+            {
+              $error="Please enter valid state"; 
+              $flag =false;
+              $stateclass = "errorRed";
+            }
+        }
+        }
+
+        if(strlen($error)<=0){
+
+
+        if($city =='') 
+        {   
+            $error="Please enter city"; 
+            $flag=false;
+            $cityclass = "errorRed";
+        }
+        if($city!='') 
+        { 
+            if(!preg_match("/^[a-z A-Z]+$/",$city)) 
+            {
+              $error="Please enter valid city"; 
+              $flag =false;
+              $cityclass = "errorRed";
+
+            }
+        } 
+      }
+
+      if(strlen($error)<=0){
+
+        if($language!='') 
+        { 
+            if(!preg_match("/^[a-z A-Z]+$/",$language)) 
+            {
+              $error="Please enter valid language"; 
+              $flag =false;
+              $languageclass = "errorRed";
+            }
+        }
+     }
+     if(strlen($error)<=0){
+
+
+        if($alternate!='') 
+        { 
+          if(strlen($alternate)!='10')
           { 
             $error="Please Enter 10 Digit Mobile.";
             $flag=false;
-            $mobileclass = "errorRed";
+            $alternateclass = "errorRed";
             
           }
-          if(!preg_match("/^[0-9]{10}+$/",$mobile)) 
+          if(!preg_match("/^[0-9]{10}+$/",$alternate)) 
           {
-            $error="Plesae enter valid mobile number and max 10 digit";
+            $error="Plesae enter valid alternate number and max 10 digit";
             $flag=false;
-            $mobileclass = "errorRed";
+            $alternateclass = "errorRed";
           }
+        }
       }
+      if(strlen($error)<=0){
 
-    
-      if($state =='') 
-      {   
-          $error="Please enter state"; 
-          $flag=false;
-          $stateclass = "errorRed";
-      }
-      if($state!='') 
-      { 
-          if(!preg_match("/^[a-z A-Z &]+$/",$state)) 
-          {
-            $error="Please enter valid state"; 
-            $flag =false;
-            $stateclass = "errorRed";
-          }
-      }
-      
-
-      if($city =='') 
-      {   
-          $error="Please enter city"; 
-          $flag=false;
-          $cityclass = "errorRed";
-      }
-      if($city!='') 
-      { 
-          if(!preg_match("/^[a-z A-Z]+$/",$city)) 
-          {
-            $error="Please enter valid city"; 
-            $flag =false;
-            $cityclass = "errorRed";
-          }
-      } 
-
-      if($language!='') 
-      { 
-          if(!preg_match("/^[a-z A-Z]+$/",$language)) 
-          {
-            $error="Please enter valid language"; 
-            $flag =false;
-            $languageclass = "errorRed";
-          }
-      }
-   
-
-      if($alternate!='') 
-      { 
-        if(strlen($alternate)!='10')
+         if($medium!='') 
         { 
-          $error="Please Enter 10 Digit Mobile.";
-          $flag=false;
-          $alternateclass = "errorRed";
-          
-        }
-        if(!preg_match("/^[0-9]{10}+$/",$alternate)) 
-        {
-          $error="Plesae enter valid alternate number and max 10 digit";
-          $flag=false;
-          $alternateclass = "errorRed";
+            if(!preg_match("/^[a-z A-Z]+$/",$medium)) 
+            {
+              $error="Please enter valid medium"; 
+              $flag =false;
+              $mediumclass = "errorRed";
+
+            }
         }
       }
-       if($medium!='') 
-      { 
-          if(!preg_match("/^[a-z A-Z]+$/",$medium)) 
+      if(strlen($error)<=0){
+
+        if($qualification!='') 
+        { 
+            if(!preg_match("/^[a-z A-Z0-9]+$/",$qualification)) 
+            {
+              $error="Please enter valid qualification"; 
+              $flag =false;
+              $qualificationclass = "errorRed";
+            }
+        }
+      }
+      if(strlen($error)<=0){
+
+        if($decodeinstitute_name!='') 
+        {   
+          if(!preg_match("/^[a-z A-Z ,()&\.\- ]{1,50}+$/",$decodeinstitute_name)) 
           {
-            $error="Please enter valid medium"; 
-            $flag =false;
-            $mediumclass = "errorRed";
+            $error="Please enter valid institute name, allowed specialcharacters (,()&.-) and max 50 characters";
+            $flag=false;
+            $institutenameclass = "errorRed";
 
           }
+        }
       }
-      if($qualification!='') 
-      { 
-          if(!preg_match("/^[a-z A-Z0-9]+$/",$qualification)) 
-          {
-            $error="Please enter valid qualification"; 
-            $flag =false;
-            $qualificationclass = "errorRed";
-          }
-      }
-      if($decodeinstitute_name!='') 
-      {   
-        if(!preg_match("/^[a-z A-Z ,()&\.\- ]{1,50}+$/",$decodeinstitute_name)) 
-        {
-          $error="Please enter valid institute name, allowed specialcharacters (,()&.-) and max 50 characters";
-          $flag=false;
-          $institutenameclass = "errorRed";
+      if(strlen($error)<=0){
 
+         if($year_from!='') 
+        { 
+            if(!preg_match("/^[0-9]+$/",$year_from)) 
+            {
+              $error="Please enter valid year from"; 
+              $flag =false;
+              $yearfromclass = "errorRed";
+            }
         }
       }
-       if($year_from!='') 
-      { 
-          if(!preg_match("/^[0-9]+$/",$year_from)) 
-          {
-            $error="Please enter valid year from"; 
-            $flag =false;
-            $yearfromclass = "errorRed";
-          }
-      }
-      if($year_to!='') 
-      { 
-          if(!preg_match("/^[0-9]+$/",$year_to)) 
-          {
-            $error="Please enter valid year to"; 
-            $flag =false;
-            $yeartoclass = "errorRed";
-          }
-      }
-      if($institute_state!='') 
-      {   
-        if(!preg_match("/^[a-zA-Z ]+$/",$institute_state)) 
-        {
-          $error="Please enter valid institute state";
-          $flag=false;
-          $institutestateclass = "errorRed";
-        }
-      }
-      if($institute_city!='') 
-      {   
-        if(!preg_match("/^[a-zA-Z ]+$/",$institute_city)) 
-        {
-          $error="Please enter valid institute city";
-          $flag=false;
-          $institutecityclass = "errorRed";
-        }
-      }
-      if($course!='') 
-      {   
-        if(!preg_match("/^[a-zA-Z 0-9]+$/",$course)) 
-        {
-          $error="Please enter valid course";
-          $flag=false;
-          $courseclass = "errorRed";
-        }
-      }  
-      
-      if($evalution!='') 
-      {   
-        if(!preg_match("/^[a-zA-Z 0-9]+$/",$evalution)) 
-        {
-          $error="Please enter valid evalution";
-          $flag=false;
-          $resultclass = "errorRed";
-        }
-      }
-      if($result_marks!='') 
-      {   
-        if(!preg_match("/^[a-zA-Z 0-9]+$/",$result_marks)) 
-        {
-          $error="Please enter valid result";
-          $flag=false;
-          $resultmarkclass = "errorRed";
-        }
-      }  
+      if(strlen($error)<=0){
 
-     if($option_state!='') 
-      {   
-        if(!preg_match("/^[a-zA-Z ]+$/",$option_state)) 
-        {
-          $error="Please enter valid option state, Allowed only ','";
-          $flag=false;
-          $optionstateclass = "errorRed";
+        if($year_to!='') 
+        { 
+            if(!preg_match("/^[0-9]+$/",$year_to)) 
+            {
+              $error="Please enter valid year to"; 
+              $flag =false;
+              $yeartoclass = "errorRed";
+            }
         }
       }
+      if(strlen($error)<=0){
+
+        if($institute_state!='') 
+        {   
+          if(!preg_match("/^[a-zA-Z ]+$/",$institute_state)) 
+          {
+            $error="Please enter valid institute state";
+            $flag=false;
+            $institutestateclass = "errorRed";
+          }
+        }
+      }
+      if(strlen($error)<=0){
+
+        if($institute_city!='') 
+        {   
+          if(!preg_match("/^[a-zA-Z ]+$/",$institute_city)) 
+          {
+            $error="Please enter valid institute city";
+            $flag=false;
+            $institutecityclass = "errorRed";
+          }
+        }
+      }
+      if(strlen($error)<=0){
+
+        if($course!='') 
+        {   
+          if(!preg_match("/^[a-zA-Z 0-9]+$/",$course)) 
+          {
+            $error="Please enter valid course";
+            $flag=false;
+            $courseclass = "errorRed";
+          }
+        }  
+      }
+      if(strlen($error)<=0){
+
+        
+        if($evalution!='') 
+        {   
+          if(!preg_match("/^[a-zA-Z ]+$/",$evalution)) 
+          {
+            $error="Please enter valid evalution";
+            $flag=false;
+            $evalutionclass = "errorRed";
+          }
+        }
+      }
+      if(strlen($error)<=0){
+
+        if($result_marks!='') 
+        {   
+          if(!preg_match("/^[a-zA-Z 0-9]+$/",$result_marks)) 
+          {
+            $error="Please enter valid result";
+            $flag=false;
+            $resultmarkclass = "errorRed";
+          }
+        }  
+      }
+      if(strlen($error)<=0){
+
+
+       if($option_state!='') 
+        {   
+          if(!preg_match("/^[a-zA-Z ]+$/",$option_state)) 
+          {
+            $error="Please enter valid option state";
+            $flag=false;
+            $optionstateclass = "errorRed";
+          }
+        }
+      }
+      if(strlen($error)<=0){
+
 
       if($option_city!='') 
       {   
@@ -356,6 +469,9 @@ if(isset($POST['data']) && $POST['data']=='1')
           $optioncityclass = "errorRed";
         }
       } 
+    }
+    if(strlen($error)<=0){
+
 
       if($notice_period!='') 
       {   
@@ -366,6 +482,9 @@ if(isset($POST['data']) && $POST['data']=='1')
           $noticeperiodclass = "errorRed";
         }
       } 
+    }
+    if(strlen($error)<=0){
+
       if($resume_title!='') 
       {   
         if(!preg_match("/^[a-zA-Z 0-9]+$/",$resume_title)) 
@@ -375,6 +494,9 @@ if(isset($POST['data']) && $POST['data']=='1')
           $resumetitleclass = "errorRed";
         }
       }
+    }
+      if(strlen($error)<=0){
+
 
       if(isset($_FILES['resume']['name']) && $_FILES['resume']['name'] != ""){
         $ext      = pathinfo($_FILES['resume']['name'], PATHINFO_EXTENSION);
@@ -387,6 +509,9 @@ if(isset($POST['data']) && $POST['data']=='1')
         }
 
       }
+    }
+    if(strlen($error)<=0){
+
 
       if($_FILES['resume']['size'] > 3097152){
 
@@ -394,6 +519,7 @@ if(isset($POST['data']) && $POST['data']=='1')
           $flag=false;
         }
         
+        }
     if($flag==true && strlen($error)<=0){
       $insertarray = array(
                 'name'    => $name,
@@ -406,7 +532,7 @@ if(isset($POST['data']) && $POST['data']=='1')
                 'country' => $country,
                 'language'=> $language,
                 'city'    => $city,
-                'dob'     => $dob,
+                'dob'     => date('Y-m-d',strtotime($dob)),
                 'passing_year'    => $year_from."-".$year_to,
                 'state'    => $state,
                 'medium'    => $medium,
@@ -422,23 +548,30 @@ if(isset($POST['data']) && $POST['data']=='1')
                 'ip'    => $_SERVER['REMOTE_ADDR'],
                 'agent'     => addslashes($_SERVER['HTTP_USER_AGENT'])
                );
-		
-		
-      $result = $objTypes->fetchAll("SELECT * FROM tbl_career_apply WHERE email = '".$email."' and job_code= '".$job_code."' and is_delete = 1 and is_active = 1");
+        
+
+
+      $result_apply = $objTypes->fetchAll("SELECT * FROM tbl_career_apply WHERE email = '".$decodeemail."' and job_id= '".$job_id."' and is_delete = 1 and is_active = 1");
+
       
-	  if(sizeof($result) == 0 ){
+      if(sizeof($result_apply) == 0 ){
+       //print_r($insertarray);
+       
       $insert_serve = $objTypes->insert("tbl_career_apply", $insertarray);
      
-	  //echo '============'; exit;
+
+     
+       
+      //echo '============'; exit;
       if($insert_serve)
       {
-	  	
-     	 $userid = $objTypes->lastInsertId();
-		 	
-				$ref_no = 'AA000-'.$userid;
-		 
-      			 $params = array(
-                             	 'ref_no'    => 'AA000-'.$userid
+        
+        echo $userid = $objTypes->lastInsertId();
+            
+                $ref_no = 'AA000-'.$userid;
+         
+                 $params = array(
+                                 'ref_no'    => 'AA000-'.$userid
                              );
                           //$objTypes->update($UpdatePdfArray,"id = '".$id."'");
                           
@@ -446,8 +579,8 @@ if(isset($POST['data']) && $POST['data']=='1')
                               ':id'          => $userid
                           );
                           $update = $objTypes->update("tbl_career_apply", $params, "id = :id", $where);
-						  
-						  $sendotp = smssendotp($ref_no, $mobile); 
+                          
+                                      $sendotp = smssendotp($ref_no, $mobile); 
                           $insertsecond= array(
                                       'job_id'=> $job_id,
                                       'user_id'=> $userid,
@@ -458,14 +591,14 @@ if(isset($POST['data']) && $POST['data']=='1')
                                       'resume_title'=> $resume_title
                                   );
         //echo $insert_serve;
-                    		//print_r($_FILES);
+                            //print_r($insertsecond);
                          $insert_serve1 = $objTypes->insert("tbl_job_user", $insertsecond);
-                    		 // echo '****';
+                             // echo '****';
                           if($insert_serve1)
                           {  
-						  	                   
+                                               
                               $id = $objTypes->lastInsertId();
-                		  
+                          
                               if(isset($_FILES['resume']['name']) && $_FILES['resume']['name'] != ""){
                                     $ext      = pathinfo($_FILES['resume']['name'], PATHINFO_EXTENSION);
                                     $ext      = strtolower($ext);
@@ -486,27 +619,33 @@ if(isset($POST['data']) && $POST['data']=='1')
                                       $params = array(
                                           'resume'    => $filename
                                          ); 
-            							 
+                                         
                                       //$objTypes->update($UpdatePdfArray,"id = '".$id."'");
                                         $where  = array(
                                           ':id'          => $id
                                       );
-            						 
+                                     
                                       $update = $objTypes->update("tbl_job_user", $params, "id = :id", $where);
-            						
+                                    
                                   }
                               }
                               for($x=1;$x<=$jobdata;$x++){
                                   $employment_status= noHTML(addslashes(strip_tags(trim($POST['employment_status_'.$x]))));
                                   $employer= noHTML(addslashes(strip_tags(trim($POST['employer_'.$x]))));
-                                  $industry_type= noHTML(addslashes(strip_tags(trim($POST['industry_type_'.$x]))));
+                                  $industry_type1= noHTML(addslashes(strip_tags(trim($POST['industry_type_'.$x]))));
+                                  $industry_type= html_entity_decode($industry_type1, ENT_QUOTES | ENT_HTML5, 'UTF-8');
                                   $reporting_to= noHTML(addslashes(strip_tags(trim($POST['reporting_to_'.$x]))));
                                   $role= noHTML(addslashes(strip_tags(trim($POST['role_'.$x]))));
-                                  $ctc= noHTML(addslashes(strip_tags(trim($POST['ctc_'.$x]))));
-                                  $gross= noHTML(addslashes(strip_tags(trim($POST['gross_'.$x]))));
-                                  $designation= noHTML(addslashes(strip_tags(trim($POST['designation_'.$x]))));
-                                  $start_date=noHTML(date('Y-m-d',strtotime(trim($POST['start_date_'.$x]))));
-
+                                  $ctc1= noHTML(addslashes(strip_tags(trim($POST['ctc_'.$x]))));
+                                  $ctc= html_entity_decode($ctc1, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+                                  $designation1= noHTML(addslashes(strip_tags(trim($POST['designation_'.$x]))));
+                                  $gross1= noHTML(addslashes(strip_tags(trim($POST['gross_'.$x]))));
+                                  $gross= html_entity_decode($gross1, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+                                  $designation1= noHTML(addslashes(strip_tags(trim($POST['designation_'.$x]))));
+                                  $designation= html_entity_decode($designation1, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+                                  $start_date1=noHTML(trim(strip_tags(addslashes($POST['start_date_'.$x]))));
+                                   if(strlen($error)<=0){
+ 
                                    if($employment_status!='')
                                   {
                                     if(!preg_match("/^[a-zA-Z ]+$/",$employment_status)) 
@@ -516,6 +655,9 @@ if(isset($POST['data']) && $POST['data']=='1')
                                       $employmentstatusclass = "errorRed";
                                     }
                                   }
+                                }
+                                if(strlen($error)<=0){
+
                                   if($employer!='')
                                   {
                                     if(!preg_match("/^[a-zA-Z ]+$/",$employer)) 
@@ -525,7 +667,50 @@ if(isset($POST['data']) && $POST['data']=='1')
                                       $employerclass = "errorRed";
                                     }
                                   }
-                                   if($industry_type!='')
+                                }
+                                if(strlen($error)<=0){
+
+                                  
+                                  $start_date  = html_entity_decode($start_date1, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+                                  if($employer!='' && $start_date1==''){
+                                    $error="Please select start date."; $flag=false;
+                                     $startdateclass = "errorRed";
+                                  }
+                                  if($start_date1!=''){
+
+                                   if(preg_match("/^(\d{4})\/(\d{2})\/(\d{2})$/", $start_date, $matches)) {
+                                    if(checkdate($matches[2], $matches[3], $matches[1])) { 
+                                      if(!in_array($matches[1], range(1930, date('Y')))){
+                                        $error="Please select valid year."; $flag=false;
+                                        $startdateclass = "errorRed";
+                                      }
+                                      if(!in_array($matches[2], range(1, 12))){
+                                        $error="Please select valid month."; $flag=false;
+                                         $startdateclass = "errorRed";
+                                      }
+                                      if(!in_array($matches[3], range(1, 31))){
+                                        $error="Please select valid date."; $flag=false;
+                                         $startdateclass = "errorRed";
+                                      }
+                                      
+                                    }
+                                    else{
+                                       $error="Please select valid start date."; $flag=false;
+                                        $startdateclass = "errorRed";
+                                    }
+                                  }else if(!preg_match("/^[0-9\/]+$/D",$start_date) && strlen($error)<=0) 
+                                  {
+                                    $error="Please enter valid start date."; $flag=false;
+                                    $startdateclass = "errorRed";
+                                  }
+                                }
+
+                                }
+        
+
+                                  if(strlen($error)<=0){
+
+                                   if($employer!="" && $industry_type!='')
                                   {
                                     if(!preg_match("/^[a-zA-Z ]+$/",$industry_type)) 
                                     {
@@ -534,7 +719,10 @@ if(isset($POST['data']) && $POST['data']=='1')
                                       $industrytypeclass = "errorRed";
                                     }
                                   }
-                                   if($designation!='')
+                                }
+                                if(strlen($error)<=0){
+
+                                   if($employer!="" && $designation!='')
                                   {
                                     if(!preg_match("/^[a-zA-Z \.\-]+$/",$designation)) 
                                     {
@@ -543,7 +731,10 @@ if(isset($POST['data']) && $POST['data']=='1')
                                       $designationclass = "errorRed";
                                     }
                                   }
-                                  if($reporting_to!='')
+                                }
+                                  if(strlen($error)<=0){
+
+                                  if($employer!="" && $reporting_to!='')
                                   {
                                     if(!preg_match("/^[a-zA-Z ]+$/",$reporting_to)) 
                                     {
@@ -552,35 +743,44 @@ if(isset($POST['data']) && $POST['data']=='1')
                                       $reportingtoclass = "errorRed";
                                     }
                                   }
-                                  
-                                  if($role!='')
+                                }
+                                  if(strlen($error)<=0){
+
+                                  if($employer!="" && $role!='')
                                   {
-                                    if(!preg_match("/^[a-zA-Z 0-9]+$/",$role)) 
+                                    if(!preg_match("/^[a-zA-Z ]+$/",$role)) 
                                     {
                                       $error="Please enter valid role";
                                       $flag=false;
                                       $roleclass = "errorRed";
                                     }
                                   }
+                                }
+                                if(strlen($error)<=0){
+
                                   
-                                  if($ctc!='')
+                                  if($employer!="" && $ctc!='')
                                   {
-                                    if(!preg_match("/^[a-zA-Z 0-9]+$/",$ctc)) 
+                                    if(!preg_match("/^[a-zA-Z 0-9 \.]+$/",$ctc)) 
                                     {
                                       $error="Please enter valid ctc";
                                       $flag=false;
                                       $ctcclass = "errorRed";
                                     }
                                   }
-                                  if($gross!='')
+                                }
+                                if(strlen($error)<=0){
+
+                                  if($employer!="" && $gross!='')
                                   {
-                                    if(!preg_match("/^[a-zA-Z 0-9]+$/",$gross)) 
+                                    if(!preg_match("/^[a-zA-Z 0-9 \.]+$/",$gross)) 
                                     {
                                       $error="Please enter valid gross";
                                       $flag=false;
                                       $grossclass = "errorRed";
                                     }
                                   }
+                                }
                                  /* if($start_date!='')
                                   {
                                     if(!preg_match("/^[ 0-9]+$/",$start_date)) 
@@ -602,9 +802,10 @@ if(isset($POST['data']) && $POST['data']=='1')
                                                 'designation'=> $designation,       
                                                 'reporting_to'=> $reporting_to,
                                                 'ctc'=> $ctc,
-                                                'start_date'=> $start_date,
+                                                'start_date'=> date('Y-m-d',strtotime($start_date)),
                                                 'gross'=> $gross
                                                     );
+                                    
                                     $insert_serve3 = $objTypes->insert("tbl_job_detail", $insert3);
                                    
                                   }
@@ -613,7 +814,7 @@ if(isset($POST['data']) && $POST['data']=='1')
                           }
 
                   }
-                                $mail->IsSMTP();
+                              /*  $mail->IsSMTP();
                                 $mail->Mailer     = "smtp";
                                 $mail->Host       = "astraladhesives.com"; 
                                 $mail->SMTPDebug  = 0; 
@@ -630,7 +831,7 @@ if(isset($POST['data']) && $POST['data']=='1')
                                 $mail->isHTML(true);  
                                 
                                 $mail->Subject  = 'Career';     
-                                $mail->Body     = 'We appreciate your interest in our services. Our team will get in touch with you shortly.';
+                                $mail->Body     = 'We appreciate your interest in our services. Our team will get in touch with you shortly.';*/
                                 
                                /* if(!$mail->send()){
                                    $error="Error in sending message.";
@@ -650,7 +851,7 @@ if(isset($POST['data']) && $POST['data']=='1')
               }else{
                  $error="Already applied.";
               }             
-          }
+            } 
  //@header("location:".base_url."career"); 
       
 
@@ -663,7 +864,7 @@ if(isset($POST['data']) && $POST['data']=='1')
   <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
-  <title>Astral Adhesives</title>
+  <title>Astral Pipes</title>
   <meta name="description" content="" />
   <meta name="keywords" content="" />
   <link href="<?=base_url?>assets/images/favicon.ico" rel="shortcut icon" type="">
@@ -699,34 +900,38 @@ if(isset($POST['data']) && $POST['data']=='1')
             <input type="hidden" name="job_code" value="<?php echo $result['job_code'];?>">
            <input type="hidden" name="data" value="1">
            <input type="hidden" name="jobdata" id="jobdata" value="1">
-            <div class="job_code"> <strong>Job Code</strong> <span><?php echo $result['job_code'];?></span></div>
+           <input type="hidden" name="job_title" id="job_title" value="<?php echo stripslashes($result['title']);?>">
+            <input type="hidden" name="function" id="function" value="<?php echo stripslashes($result['department']);?>">
+            <div class="job_code"> <strong>Job Code</strong> <span><input type="text"  class="textBox"  value="<?php echo $result['job_code'];?>" readonly></span></div>
             <ul>
               <li>
                 <span><strong>Job Title</strong></span>
                 <span>
-                  <?php echo stripslashes($result['title']);?><?php echo $job_title;?>
+                  <?php if($job_title!=''){ ?> <input type="text"  class="textBox" value="<?php echo $job_title;?>" readonly> <?php }else{?> <input type="text"  class="textBox" value="<?php  echo stripslashes($result['title']);?>" readonly><?php } ?>
                 </span>
               </li>
               <li>
                 <span><strong>Employment type </strong></span>
                 <span>
                   <?php  if($result['to_experience']==0 || $experience=0) {?>
-                  Fresher
+                   <input type="text"  class="textBox" value="Fresher" readonly> 
+                  
                   <?php  }if($result['to_experience']>0 || $experience>0){?>
-                  Experienced
+                    <input type="text"  class="textBox" value="Experienced" readonly>
+                  
                  <?php }?>
                 </span>
               </li>
               <li>
                 <span><strong>Function</strong></span>
                 <span> 
-                  <?php echo stripslashes($result['department']);?><?php echo $function;?> 
+                  <?php if($function!=''){ ?> <input type="text"  class="textBox" value="<?php echo $function;?>" readonly> <?php }else{?><input type="text"  class="textBox" value="<?php echo stripslashes($result['department']);?>" readonly><?php } ?>
                 </span>
               </li>
               <li>
                 <span><strong>Medium</strong></span>
                 <span>
-                  Website
+                  <input type="text"  class="textBox" value="Website" readonly>
                 </span>
               </li>
             </ul>
@@ -932,7 +1137,7 @@ if(isset($POST['data']) && $POST['data']=='1')
               <li>
                 <span><strong>Evalution Methodology</strong></span>
                 <span>
-                  <select name="evalution" id="evalution" class="selectBox <?php echo $resultclass;?>">
+                  <select name="evalution" id="evalution" class="selectBox <?php echo $evalutionclass;?>">
                     <option value="Grade" <?php echo ($evalution=="Grade") ? 'selected': ''?>>Grade</option>
                     <option value="CPI" <?php echo ($evalution=="CPI") ? 'selected': ''?>>CPI</option>
                     <option value="Ranking" <?php echo ($evalution=="Ranking") ? 'selected': ''?>>Ranking</option>
@@ -959,8 +1164,8 @@ if(isset($POST['data']) && $POST['data']=='1')
                 <span>
                   <select name="employment_status_1" id="employment_status_1" class="selectBox <?php echo $employmentstatusclass;?>" >
                     <option value="">Select</option>
-                    <option value="Fresher" <?=($employment_status=='Fresher') ? 'selected':''?>>Fresher</option>
-                    <option value="Experience" <?=($employment_status=='Experience') ? 'selected':''?>>Experience</option>
+                    <option value="Fresher" <?php echo ($employment_status=='Fresher') ? 'selected':''?>>Fresher</option>
+                    <option value="Experience" <?php echo ($employment_status=='Experience') ? 'selected':''?>>Experience</option>
                   </select>
                 </span>
               </li>
@@ -978,24 +1183,24 @@ if(isset($POST['data']) && $POST['data']=='1')
                 <span>
           				<select name="industry_type_1" id="industry_type_1" class="selectBox <?php echo $industrytypeclass;?>">
                     <option value="">Select</option>
-                    <option value="account" <?=($industry_type=='account') ? 'selected' : ''?>>Account</option>
-          					<option value="agriculture" <?=($industry_type=='agriculture') ? 'selected':''?> >Agriculture</option>
-          					<option value="advertising" <?=($industry_type=='advertising')?'selected':''?> >Advertising/Media</option>
-          					<option value="army" <?=($industry_type=='army')?'selected':''?> >Army/Airforce/</option>
-                    <option value="auto" <?=($industry_type=='auto')?'selected':''?>>Auto</option>
-          					<option value="banking" <?=($industry_type=='banking')?'selected':''?>>Banking</option>
-          					<option value="bpo" <?=($industry_type=='bpo')?'selected':''?>>BPO</option>
-          					<option value="broking_house" <?=($industry_type=='broking_house')?'selected':''?>>Broking house</option>
-          					<option value="cement" <?=($industry_type=='cement')?'selected':''?>>Cement</option>
-          					<option value="ceramic" <?=($industry_type=='ceramic')?'selected':''?>>Ceramic</option>
-          					<option value="chemical" <?=($industry_type=='chemical')?'selected':''?>>Chemical</option>
-          					<option value="construction" <?=($industry_type=='construction')?'selected':''?>>Construction</option>
-          					<option value="consultant" <?=($industry_type=='consultant')?'selected':''?>>Consultant</option>
-          					<option value="consumer_durable" <?=($industry_type=='consumer_durable')?'selected':''?>>Consumer Durable</option>
-          					<option value="courier" <?=($industry_type=='courier')?'selected':''?>>Courier</option>
-          					<option value="dairy" <?=($industry_type=='dairy')?'selected':''?>>Dairy</option>
-          					<option value="design" <?=($industry_type=='design')?'selected':''?>>Design</option>
-          					<option value="education" <?=($industry_type=='education')?'selected':''?>>Education</option>
+                    <option value="account" <?php echo ($industry_type=='account') ? 'selected' : ''?>>Account</option>
+          					<option value="agriculture" <?php echo ($industry_type=='agriculture') ? 'selected':''?> >Agriculture</option>
+          					<option value="advertising" <?php echo ($industry_type=='advertising')?'selected':''?> >Advertising or Media</option>
+          					<option value="army" <?php echo ($industry_type=='army')?'selected':''?> >Army or Airforce</option>
+                    <option value="auto"  <?php echo ($industry_type=='auto')?'selected':''?>>Auto</option>
+          					<option value="banking" <?php echo ($industry_type=='banking')?'selected':''?>>Banking</option>
+          					<option value="bpo" <?php echo ($industry_type=='bpo')?'selected':''?>>BPO</option>
+          					<option value="broking_house" <?php echo ($industry_type=='broking house')?'selected':''?>>Broking house</option>
+          					<option value="cement" <?php echo ($industry_type=='cement')?'selected':''?>>Cement</option>
+          					<option value="ceramic" <?php echo ($industry_type=='ceramic')?'selected':''?>>Ceramic</option>
+          					<option value="chemical" <?php echo ($industry_type=='chemical')?'selected':''?>>Chemical</option>
+          					<option value="construction" <?php echo ($industry_type=='construction')?'selected':''?>>Construction</option>
+          					<option value="consultant" <?php echo ($industry_type=='consultant')?'selected':''?>>Consultant</option>
+          					<option value="consumer_durable" <?php echo ($industry_type=='consumer durable')?'selected':''?>>Consumer Durable</option>
+          					<option value="courier" <?php echo ($industry_type=='courier')?'selected':''?>>Courier</option>
+          					<option value="dairy" <?php echo ($industry_type=='dairy')?'selected':''?>>Dairy</option>
+          					<option value="design" <?php echo ($industry_type=='design')?'selected':''?>>Design</option>
+          					<option value="education" <?php echo ($industry_type=='education')?'selected':''?>>Education</option>
           				</select>
                 </span>
               </li>
@@ -1004,21 +1209,21 @@ if(isset($POST['data']) && $POST['data']=='1')
                 <span>
                   <select name="designation_1" id="designation_1" class="selectBox <?php echo $designationclass;?>">
                     <option option="">Select</option>	
-          					<option option="assistant" <?=($designation=='assistant')?'selected':''?>>Assistant</option>					
-                    <option option="jr_officer" <?=($designation=='jr_officer')?'selected':''?>>Jr. Officer</option>
-          					<option option="officer" <?=($designation=='officer')?'selected':''?>>Officer</option>
-          					<option option="sr_officer" <?=($designation=='sr_officer')?'selected':''?>>Sr. Officer</option>					
-          					<option option="jr_executive" <?=($designation=='jr_executive')?'selected':''?>>Jr. Executive</option>
-          					<option option="executive" <?=($designation=='executive')?'selected':''?>>	Executive</option>
-                    <option option="sr_executive" <?=($designation=='sr_executive')?'selected':''?>>Sr. Executive</option>
-          					<option option="asst_manager" <?=($designation=='asst_manager')?'selected':''?>>Asst. Manager</option>
-          					<option option="dy_manager" <?=($designation=='dy_manager')?'selected':''?>>Dy. Manager</option>
-          					<option option="manager" <?=($designation=='manager')?'selected':''?>>Manager</option>
-          					<option option="sr_manager" <?=($designation=='sr_manager')?'selected':''?>>Sr. Manager</option>
-          					<option option="asst_gm" <?=($designation=='asst_gm')?'selected':''?>>Asst.GM</option>
-          					<option option="dy_gm" <?=($designation=='dy_gm')?'selected':''?>>Dy GM</option>
-          					<option option="sr_gmvpresident" <?=($designation=='sr_gmvpresident')?'selected':''?>>Sr.GMVP President</option>
-          					<option option="jr_engineer" <?=($designation=='jr_engineer')?'selected':''?>>Jr.Engineer</option>
+          					<option option="assistant" <?php echo ($designation=='assistant')?'selected':''?>>Assistant</option>					
+                    <option option="jr_officer" <?php echo ($designation=='jr officer')?'selected':''?>>Jr. Officer</option>
+          					<option option="officer" <?php echo ($designation=='officer')?'selected':''?>>Officer</option>
+          					<option option="sr_officer" <?php echo ($designation=='sr officer')?'selected':''?>>Sr. Officer</option>					
+          					<option option="jr_executive" <?php echo ($designation=='jr executive')?'selected':''?>>Jr. Executive</option>
+          					<option option="executive" <?php echo ($designation=='executive')?'selected':''?>>	Executive</option>
+                    <option option="sr_executive" <?php echo ($designation=='sr executive')?'selected':''?>>Sr. Executive</option>
+          					<option option="asst_manager" <?php echo ($designation=='asst manager')?'selected':''?>>Asst. Manager</option>
+          					<option option="dy_manager" <?php echo ($designation=='dy manager')?'selected':''?>>Dy. Manager</option>
+          					<option option="manager" <?php echo ($designation=='manager')?'selected':''?>>Manager</option>
+          					<option option="sr_manager" <?php echo ($designation=='sr manager')?'selected':''?>>Sr. Manager</option>
+          					<option option="asst_gm" <?php echo ($designation=='asst gm')?'selected':''?>>Asst.GM</option>
+          					<option option="dy_gm" <?php echo ($designation=='dy gm')?'selected':''?>>Dy GM</option>
+          					<option option="sr_gmvpresident" <?php echo ($designation=='sr gmvpresident')?'selected':''?>>Sr.GMVP President</option>
+          					<option option="jr_engineer" <?php echo ($designation=='jr engineer')?'selected':''?>>Jr.Engineer</option>
                   </select>
                 </span>
               </li>
@@ -1039,14 +1244,14 @@ if(isset($POST['data']) && $POST['data']=='1')
               <li>
                 <span><strong>CTC</strong></span>
                 <span id="ctcbox_1">
-                  <input type="text" class="textBox <?php echo $ctcclass;?>" name="ctc_1" value="<?=$ctc?>" id="ctc_1" value="<?=$ctc?>">
+                  <input type="text" id="ctc_1" class="textBox <?php echo $ctcclass;?>" name="ctc_1" value="<?=$ctc?>">
                   <span></span>
                 </span>
               </li>
               <li>
                 <span><strong>Gross Salary</strong></span>
                 <span id="grossbox_1">
-                  <input type="text" class="textBox <?php echo $grossclass;?>" value="<?=$gross;?>" name="gross_1" id="gross_1" value="<?=$gross?>">
+                  <input type="text" id="gross_1" name="gross_1" class="textBox <?php echo $grossclass;?>" value="<?=$gross?>">
                   <span></span>
                 </span>
               </li>
@@ -1060,12 +1265,13 @@ if(isset($POST['data']) && $POST['data']=='1')
               <li>
                 <span><strong>Willing To Relocate</strong></span>
                 <span>
-                  <input type="radio" id="yes" name="willing_relocate" value="y" checked>
+                  <input type="radio" id="yes" name="willing_relocate" value="y"  <?php echo ($willing_relocate=='y' || $willing_relocate=='') ? 'checked': ''?>>
                   <label for="yes">Yes</label>
-                  <input type="radio" id="no" name="willing_relocate" value="N"<?php echo ($willing_relocate=='N') ? 'selected': ''?> onsele>
+                  <input type="radio" id="no" name="willing_relocate" value="N"<?php echo ($willing_relocate=='N') ? 'checked': ''?>>
                   <label for="no">No</label>
                 </span>
               </li>
+              <?php if($willing_relocate!='N'){?>
               <li>
                 <span><strong>Select State</strong></span>
                 <span>
@@ -1090,6 +1296,8 @@ if(isset($POST['data']) && $POST['data']=='1')
                  You can add multiple city, separated by ','.
                 </span>
               </li>
+            <?php }?>
+
               <li>
                 <span><strong>Notice Period</strong></span>
                 <span id="notice_periodbox">
@@ -1110,8 +1318,9 @@ if(isset($POST['data']) && $POST['data']=='1')
                   <div class="file-select">
                     <div class="file-select-button" id="fileName">Upload Your Resume*</div>
                     <div class="file-select-name" id="noFile" value="<?php echo $_FILES['resume']['name'];?>"></div> 
-                    <input type="file" name="resume" id="chooseFile" value=""><br>Allowed only pdf and doc file
+                    <input type="file" name="resume" id="chooseFile" value=""><br>
                   </div>
+                  <div>Allowed only pdf and doc file</div>
                 </div>
               </li>
             </ul>
@@ -1138,8 +1347,10 @@ if(isset($POST['data']) && $POST['data']=='1')
       <script type="text/javascript">
       $(document).ready(function(){ 
 
-          $('input').on('keyup',function()
+         $('input').on('keyup',function()
           {
+              $('input,select').removeClass('errorRed');
+              $('.errMsg').text('');
               $('.per_info li span span').text(''); 
               $('.edu_info li span span').text(''); 
               $('.job_info li span span').text('');
@@ -1152,6 +1363,8 @@ if(isset($POST['data']) && $POST['data']=='1')
           
            $('select').on('change',function()
           {
+              $('input,select').removeClass('errorRed');
+              $('.errMsg').text('');
               $('.per_info li span span').text(''); 
               $('.edu_info li span span').text(''); 
               $('.job_info li span span').text('');
@@ -1161,8 +1374,9 @@ if(isset($POST['data']) && $POST['data']=='1')
               $(this).addClass('errorblue');
 
            });
-          $('#name').keyup(function()
+         $('#name').keyup(function()
           {
+              $('input,select').removeClass('errorRed');
               $('input,select').removeClass('errorblue');
               charactersonly(this);
               $("#name").addClass('errorblue');
@@ -1170,10 +1384,20 @@ if(isset($POST['data']) && $POST['data']=='1')
               $("#namebox span").text('Only characters');
 
           });
+		  /*
+		  $('#name').keyup(function(){
+			   if (!/^[a-zA-Z]*$/g.test(document.career_form.name.value)) {
+					$("#namebox span").text('Invalid characters');
+					document.career_form.name.focus();
+					return false;
+				}else{					
+				}
+		  });*/
           
 
           $('#pan').keyup(function()
           {
+
               $('input,select').removeClass('errorblue');
               alphanumericsonly(this);
               $("#pan").addClass('errorblue');

@@ -236,7 +236,7 @@ function Delete_CheckBox()
 		if(confirm("Are you sure  want to Delete Selected Record ?."))
 		{
 			$("#action").attr("value","deleteall");
-			document.frmListing.action='act_pressrelease.php?action=deleteall';
+			document.frmListing.action='act_event.php?action=deleteall';
 			document.frmListing.submit();
 		}
 	}
@@ -255,7 +255,7 @@ function Active_CheckBox()
 		if(confirm("Are you sure  want to Activate Selected Record ?."))
 		{
 			$("#action").attr("value","activeall");
-			document.frmListing.action='act_pressrelease.php';
+			document.frmListing.action='act_event.php';
 			document.frmListing.submit();
 		}
 	}
@@ -275,7 +275,7 @@ function Deactive_CheckBox()
 		if(confirm("Are you sure  want to Deactivate Selected Record ?."))
 		{
 			$("#action").attr("value","deactiveall");
-			document.frmListing.action='act_pressrelease.php';
+			document.frmListing.action='act_event.php';
 			document.frmListing.submit();
 		}
 	}
